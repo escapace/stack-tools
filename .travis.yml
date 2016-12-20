@@ -16,7 +16,8 @@ script:
 - ./manage build-gosu
 - ./manage build-dumb-init
 after_success:
-- cat release/*/SHA256SUMS > release/SHA256SUMS
+- sudo cat release/*/SHA256SUMS > release/SHA256SUMS
+- sudo chmod -R 777 release
 deploy:
   provider: releases
   api_key:
@@ -35,4 +36,4 @@ deploy:
     - release/gosu/gosu-s390x
   on:
     tags: true
-
+    repo: epiloque/docker-base
