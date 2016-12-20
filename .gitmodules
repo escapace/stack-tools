@@ -1,6 +1,6 @@
 [submodule "vendor/manage"]
 	path = vendor/manage
-	url = git@github.com:epiloque/manage.git
+	url = https://github.com/epiloque/manage.git
 [submodule "vendor/dumb-init"]
 	path = vendor/dumb-init
 	url = https://github.com/Yelp/dumb-init.git
