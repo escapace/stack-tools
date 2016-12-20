@@ -33,6 +33,11 @@ main ()
         make || _ die "dumb-init build failed"
 
         cp "${MANAGEREPOSITORY}/vendor/dumb-init/dumb-init" "${MANAGEREPOSITORY}/release/dumb-init/dumb-init-${ARCH}"
+
+        cd "${MANAGEREPOSITORY}/release/dumb-init" || _ die "cd: no such file or directory"
+
+        shasum -a256 dumb-init-* > \
+            "${MANAGEREPOSITORY}/release/dumb-init/SHA256SUMS"
     else
         ARCH="$(uname -p)"
 

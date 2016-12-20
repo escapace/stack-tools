@@ -2,17 +2,37 @@ sudo: required
 dist: trusty
 language: python
 python:
-  - "2.7"
+- '2.7'
 services:
-  - docker
+- docker
 env:
   global:
-    - PATH="/usr/bin:$PATH"
-
+  - PATH="/usr/bin:$PATH"
 before_install:
-  - deactivate
-  - sudo apt-get update -qq
-  - sudo apt-get install -y -o Dpkg::Options::="--force-confnew" docker-engine
-
+- deactivate
+- sudo apt-get update -qq
+- sudo apt-get install -y -o Dpkg::Options::="--force-confnew" docker-engine
 script:
-  - ./manage build-gosu
+- ./manage build-gosu
+- ./manage build-dumb-init
+after_success:
+- cat release/*/SHA256SUMS > release/SHA256SUMS
+deploy:
+  provider: releases
+  api_key:
+    secure: XLjw0dZozfs578VblM2MZWkG6vjx/DZECqJuqkNpo8oyQ5y3nHpiOgqsf5u0yIouoPYrvwyymzSgqgG8CThvvHB6SsPmDCR5pg0vLFrln9mgdNl4kGDOQ0b7zTjEZ3TpEXtpHYIOCN4m5YoA6I4lqj/+4F2ZBCF8XZuf57XPAL6SJF3wQaHYVWaVRxYFeXkmzb/cxAhYpEUPB3Zdk888g7X8CKKf7HPk0ppumgAh9r9E8gEQzV97sShn3HKWh8Qqbfz5SzmBedX5TZp1BSzBOyqL8I3+zb+9I9bTlJlYar2zEnLXJOEtURIFhOHdmYjJE6fH8W4ycHG0PmksUfXZbXtO3lyBh7QiL4mOd/Oisy1nxw53S80zxCOLQH/1ZHUK46WWmecp0EPgJcRM/CYfFLi0OhOm/iCTu4StXJ90BnQ8BUjDn69VZVu68uk4orHwftZvafdCXP4JkdlD5AD2tImTxZY5ddDHxfEuvDqyDOhYV4qU1WPv+0rIP1QHvoH2JE3fvyfBKNjzmsm/0PyS34JYZY6hOWIkPHaBWcIjFRKUCRb9yVf9kbOBZ6ITjfgxjSFguz0hI82ALYVQrdY6kKnvww4quU/WHNp9l/gYDmugEhjDAro/1c8zetOmY+8yfLGjoMBdO4byq3fg55VKjlkqJHmQL3OOuLmn1Y/lRl8=
+  skip_cleanup: true
+  file:
+    - release/SHA256SUMS
+    - release/dumb-init/dumb-init-x86_64
+    - release/gosu/gosu-amd64
+    - release/gosu/gosu-arm64
+    - release/gosu/gosu-armel
+    - release/gosu/gosu-armhf
+    - release/gosu/gosu-i386
+    - release/gosu/gosu-ppc64
+    - release/gosu/gosu-ppc64el
+    - release/gosu/gosu-s390x
+  on:
+    tags: true
+
