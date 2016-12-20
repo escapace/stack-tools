@@ -1,0 +1,22 @@
+# Relative path to the script directory
+scripts: scripts
+
+# Check for the following dependencies in PATH
+dependencies:
+  - bash
+  - awk
+  - sed
+  - tr
+  - head
+
+# Environment variables
+env:
+  HELLO: "Hello World!"
+
+# Enable scripts from manage repository
+enable:
+  - help
+
+# Default script to execute
+default: help
+

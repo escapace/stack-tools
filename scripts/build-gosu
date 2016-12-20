@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+#
+# vim: set ft=sh:
+#
+# <doc>
+#
+# docker-base
+#
+# </doc>
+#
+# <import>
+#
+# collection-shell
+# collection-message
+# collection-string
+#
+# </import>
+
+main ()
+{
+    verbose true
+    strict true
+
+    cd "${MANAGEREPOSITORY}/vendor/gosu"
+    mkdir -p "${MANAGEREPOSITORY}/release/gosu"
+
+    docker build --pull -t gosu .
+    rm -f gosu* SHA256SUMS*
+    docker run --rm gosu sh -c 'cd /go/bin && tar -c gosu*' | tar -xv
+    sha256sum gosu* > SHA256SUMS
+
+    cp -rf gosu* "${MANAGEREPOSITORY}/release/gosu"
+    cp -rf SHA256SUMS* "${MANAGEREPOSITORY}/release/gosu"
+}
+
+onexit ()
+{
+    if (( $1 == 0 ))
+    then
+    if _ truth "$DOCKER"; then
+        true
+    else
+        _ warn "Exiting."
+    fi
+    else
+        _ error "An error with exit code \"$1\" has occured."
+    fi
+}

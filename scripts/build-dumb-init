@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+#
+# vim: set ft=sh:
+#
+# <doc>
+#
+# docker-base
+#
+# </doc>
+#
+# <import>
+#
+# collection-shell
+# collection-message
+# collection-string
+#
+# </import>
+
+main ()
+{
+    verbose true
+    strict true
+
+    ARCH="$(manage _arch)"
+
+    export MANAGEDOCKERFILE="${MANAGEREPOSITORY}/images/dumb-init/Dockerfile.${ARCH}"
+
+    if _ truth "$DOCKER"; then
+        mkdir -p "${MANAGEREPOSITORY}/release/dumb-init"
+
+        cd "${MANAGEREPOSITORY}/vendor/dumb-init" || _ die "cd: no such file or directory: ./vendor/dumb-init"
+
+        make || _ die "dumb-init build failed"
+
+        cp "${MANAGEREPOSITORY}/vendor/dumb-init/dumb-init" "${MANAGEREPOSITORY}/release/dumb-init/dumb-init-${ARCH}"
+    else
+        ARCH="$(uname -p)"
+
+        if [[ "${ARCH}" == "armhf"  ]]
+        then
+            export MANAGEDOCKERFILE="${MANAGEREPOSITORY}/images/dumb-init/Dockerfile.armhf"
+        else
+            export MANAGEDOCKERFILE="${MANAGEREPOSITORY}/images/dumb-init/Dockerfile.x86_64"
+        fi
+
+        manage _build_docker dumb-init
+    fi
+}
+
+onexit ()
+{
+    if (( $1 == 0 ))
+    then
+    if _ truth "$DOCKER"; then
+        true
+    else
+        _ warn "Exiting."
+    fi
+    else
+        _ error "An error with exit code \"$1\" has occured."
+    fi
+}

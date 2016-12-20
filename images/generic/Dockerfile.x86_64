@@ -1,0 +1,37 @@
+# vim: set ft=dockerfile :
+FROM alpine:3.4
+MAINTAINER Mark Milstein <mark@epiloque.com> (@epiloque)
+
+ENV DOCKER=true
+
+RUN apk add --no-cache \
+    bash \
+    sed \
+    gawk \
+    build-base \
+    coreutils \
+    curl \
+    git \
+    libffi-dev \
+    openssh \
+    openssl-dev \
+    py-pip \
+    python \
+    python-dev \
+    unzip \
+    openssl
+
+RUN mkdir -p /base /volume
+VOLUME /volume
+WORKDIR /base
+
+COPY scripts scripts
+COPY .manage.yml .manage.yml
+COPY vendor vendor
+
+RUN ln -s /volume /base/release
+RUN ln -s /base/vendor/manage/bin/manage /base/manage
+RUN rm -rf /var/cache/apk/
+
+ENTRYPOINT ["/base/manage"]
+CMD ["help"]

@@ -1,0 +1,55 @@
+FROM multiarch/centos:7.2.1511-armhfp-clean
+
+RUN yum upgrade -y
+RUN yum install -y autoconf \
+    automake \
+    binutils \
+    bison \
+    flex \
+    gcc \
+    gcc-c++ \
+    clang \
+    gettext \
+    libtool \
+    make \
+    patch \
+    pkgconfig \
+    redhat-rpm-config \
+    rpm-build \
+    rpm-sign \
+    diffstat \
+    doxygen \
+    git \
+    indent \
+    patchutils \
+    swig \
+    bash               \
+    bash-completion    \
+    ca-certificates    \
+    curl               \
+    make               \
+    gcc                \
+    python             \
+    python-devel       \ 
+    openssl-devel      \
+    git                \
+    gcc-c++            \
+    sqlite-devel       \
+    glibc-static       \
+    device-mapper-devel
+
+RUN yum install -y yum-utils git rpm-build spectool
+RUN mkdir /root/rpmbuild /artifacts
+
+ENV DOCKER=true
+VOLUME /artifacts
+WORKDIR /root/rpmbuild
+
+COPY ./SOURCES /root/rpmbuild/SOURCES
+COPY ./SPECS /root/rpmbuild/SPECS
+COPY ./vendor/manage /root/rpmbuild/manage
+COPY ./script /root/rpmbuild/script
+COPY ./.manage.yml /root/rpmbuild/.manage.yml
+
+ENTRYPOINT ["/root/rpmbuild/manage/bin/manage"]
+CMD ["build"]
