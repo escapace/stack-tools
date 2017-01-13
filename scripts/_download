@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#
+# vim: set ft=sh:
+#
+# <doc>
+#
+# download terraform
+#
+# </doc>
+#
+# <import>
+#
+# collection-shell
+# collection-message
+# collection-string
+#
+# </import>
+#
+# <dependency>
+#
+# bash
+# openssl
+# unzip
+# curl
+#
+# </dependency>
+
+
+function sha_check () {
+    local file="$1"
+
+    if [ -f "${file}" ]
+    then
+        openssl dgst -sha256 "${file}" | cut -d" " -f 2
+    else
+        _ die "file ${file} does not exist"
+    fi
+}
+
+
+
+main ()
+{
+    verbose true
+    strict true
+
+    DOWNLOAD_TARGET="$1"
+    DOWNLOAD_URL="$2"
+    DOWNLOAD_SHA256="$3"
+
+    if [ ! -f "${DOWNLOAD_TARGET}" ]
+    then
+        _ info "fetching ${DOWNLOAD_URL}"
+        wget -4 --progress=bar -t 3 "${DOWNLOAD_URL}" -O "${DOWNLOAD_TARGET}"
+        local local_sha
+    fi
+
+    if _ required "${DOWNLOAD_SHA256}"
+    then
+        local_sha="$(sha_check "${DOWNLOAD_TARGET}")"
+        if [[ "${DOWNLOAD_SHA256}" != "${local_sha}" ]]
+        then
+            _ error "${DOWNLOAD_URL} SHA256 do not match:"
+            _ die "Expected ${DOWNLOAD_SHA256} and got ${local_sha}"
+        else
+            _ info "Successfully verified $(basename "${DOWNLOAD_TARGET}")"
+        fi
+    fi
+}

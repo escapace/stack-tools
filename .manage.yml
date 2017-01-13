@@ -11,7 +11,8 @@ dependencies:
 
 # Environment variables
 env:
-  HELLO: "Hello World!"
+  DOCKER_USERNAME: epiloque
+  DOCKER_MAINTAINER: "Mark Milstein <mark@epiloque.com>"
 
 # Enable scripts from manage repository
 enable:

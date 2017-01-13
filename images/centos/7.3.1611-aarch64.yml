@@ -1,0 +1,12 @@
+url: http://buildlogs.centos.org/centos/7/os/aarch64/images/boot.iso
+sha256sum: b093bbb1a38170365fb368b2c3d51ef3c2b008de9eeb01f9f6b73366f6af5a86
+arch: aarch64
+kickstart: 7.3.1611-aarch64.ks
+qemu_arch: aarch64
+version: 7.3.1611
+
+tags:
+  - 7.3.1611-aarch64
+  - 7.2-aarch64
+  - 7-aarch64
+  - aarch64

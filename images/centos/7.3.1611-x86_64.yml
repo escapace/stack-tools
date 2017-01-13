@@ -1,0 +1,14 @@
+url: http://mirror.centos.org/centos/7.3.1611/os/x86_64/images/boot.iso
+arch: x86_64
+qemu_arch: x86_64
+sha256sum: f2f7367deb90a25822947660c71638333ca0eceeabecc2d631be6cd508c24494
+kickstart: 7.3.1611-x86_64.ks
+version: 7.3.1611
+
+# Check for the following dependencies in PATH
+tags:
+  - 7.3.1611-x86_64
+  - 7.2-x86_64
+  - 7-x86_64
+  - x86_64
+  - latest
