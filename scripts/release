@@ -12,7 +12,7 @@ main ()
     strict true
 
     local tag="$1"
-    local message="$1"
+    local message="$2"
 
     _ required "${tag}" "${message}" || _ die "specify a version and a message"
 
