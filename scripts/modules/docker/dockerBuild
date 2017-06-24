@@ -14,7 +14,7 @@ dockerBuild () (
 
     local imageDirectory="${DOCKER_DIRECTORY:-${MANAGE_REPOSITORY}/images}"
     local scope="${DOCKER_SCOPE:-internal}"
-    local options="${DOCKER_BUILD_OPTIONS:-"-rm"}"
+    local options="${DOCKER_BUILD_OPTIONS:-"--rm"}"
 
     build () {
         local directory="$1" ; shift 1
