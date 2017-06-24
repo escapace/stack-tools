@@ -14,6 +14,7 @@ dockerBuild () (
 
     local imageDirectory="${DOCKER_DIRECTORY:-${MANAGE_REPOSITORY}/images}"
     local scope="${DOCKER_SCOPE:-internal}"
+    local options="${DOCKER_BUILD_OPTIONS:-"-rm"}"
 
     build () {
         local directory="$1" ; shift 1
@@ -59,7 +60,7 @@ dockerBuild () (
                 localTags=(${!tags[@]})
 
                 cmd="$(join localTags "${prefix}")"
-                cmd="docker build --force-rm${prefix}${cmd} ${suffix}"
+                cmd="docker build ${options}${prefix}${cmd} ${suffix}"
 
                 executeIn "${MANAGE_REPOSITORY}" "${cmd}"
             else
