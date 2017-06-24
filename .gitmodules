@@ -7,6 +7,3 @@
 [submodule "vendor/gosu"]
 	path = vendor/gosu
 	url = https://github.com/tianon/gosu.git
-[submodule "vendor/sig-cloud-instance-build"]
-	path = vendor/sig-cloud-instance-build
-	url = https://github.com/CentOS/sig-cloud-instance-build.git

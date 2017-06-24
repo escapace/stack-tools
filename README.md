@@ -14,10 +14,11 @@ $ ./manage
 
   Usage: manage [ script ] [ arguments ... ]
 
-             help   Display this help and exit
-     build-centos   Build centos docker image
-  build-dumb-init   build dumb-init binary
-       build-gosu   build gosu binary
+  build-dumb-init    Build dumb-init minimal init system for linux containers
+  build-gosu         Build gosu (go-based setuid+setgid+setgroups+exec)
+  help               Display this help and exit
+  release            Release docker tools
+  test               Run the test suite
 
 ```
 
@@ -34,30 +35,6 @@ to provide useful utilities:
 
 Docker is required for building since compiling steps happen in containers.
 Containers should tailor what they include depending on what they need.
-
-## [CentOS](https://github.com/epiloque/docker-base#Qemu)
-
-This repository contains the kickstart files needed to build a CentOS Docker
-container from scratch. The following packages and dependencies are needed:
-
-```sh
-sudo yum install lorax virt-install libguestfs-tools-c
-```
-
-```sh
-sudo yum install libfdt-devel ccache tar git make gcc g++ zlib-devel \
-                 glib2-devel SDL-devel pixman-devel lzo-devel \
-                 libaio-devel libcap-devel libiscsi-devel libcap-ng-devel
-
-git clone git://git.qemu.org/qemu.git
-cd qemu
-./configure --enable-kvm --enable-lzo --enable-bzip2 \
-            --enable-libiscsi --enable-cap-ng --enable-sdl \
-            --enable-pie --enable-linux-aio \
-            --target-list=aarch64-softmmu,arm-softmmu,i386-softmmu,x86_64-softmmu
-make
-sudo make install
-```
 
 ## [License](https://github.com/epiloque/docker-base#License)
 

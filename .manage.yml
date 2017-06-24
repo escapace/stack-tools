@@ -1,23 +1,16 @@
-# Relative path to the script directory
-scripts: scripts
-
-# Check for the following dependencies in PATH
-dependencies:
-  - bash
-  - awk
-  - sed
-  - tr
-  - head
+directories:
+  script: scripts
+  module: scripts/modules
+  test: scripts/tests
 
 # Environment variables
 env:
-  DOCKER_USERNAME: epiloque
-  DOCKER_MAINTAINER: "Mark Milstein <mark@epiloque.com>"
+  DOCKER_SCOPE: "epiloque"
 
-# Enable scripts from manage repository
+# Enable manage repository scripts
 enable:
   - help
+  - test
 
-# Default script to execute
+# Default script
 default: help
-

@@ -1,67 +1,38 @@
 #!/usr/bin/env bash
-#
-# vim: set ft=sh:
-#
-# <doc>
-#
-# build dumb-init binary
-#
-# </doc>
-#
-# <import>
-#
-# collection-shell
-# collection-message
-# collection-string
-#
-# </import>
+# @description build dumb-init minimal init system for Linux containers
+# @import docker/dockerBuild
+# @import console/die
+# @import console/info
+# @dependency docker
+# @dependency sha256sum
 
 main ()
 {
     verbose true
     strict true
+    local scope="${DOCKER_SCOPE:-internal}"
 
-    ARCH="$(manage _arch)"
+    _ info "Building dumb-init docker image"
 
-    export MANAGEDOCKERFILE="${MANAGEREPOSITORY}/images/dumb-init/Dockerfile.${ARCH}"
+    # _ dockerBuild dumb-init
 
-    if _ truth "$DOCKER"; then
-        mkdir -p "${MANAGEREPOSITORY}/release/dumb-init"
-
-        cd "${MANAGEREPOSITORY}/vendor/dumb-init" || _ die "cd: no such file or directory: ./vendor/dumb-init"
-
-        make || _ die "dumb-init build failed"
-
-        cp "${MANAGEREPOSITORY}/vendor/dumb-init/dumb-init" "${MANAGEREPOSITORY}/release/dumb-init/dumb-init-${ARCH}"
-
-        cd "${MANAGEREPOSITORY}/release/dumb-init" || _ die "cd: no such file or directory"
-
-        shasum -a256 dumb-init-* > \
-            "${MANAGEREPOSITORY}/release/dumb-init/SHA256SUMS"
-    else
-        ARCH="$(uname -p)"
-
-        if [[ "${ARCH}" == "armhf"  ]]
-        then
-            export MANAGEDOCKERFILE="${MANAGEREPOSITORY}/images/dumb-init/Dockerfile.armhf"
-        else
-            export MANAGEDOCKERFILE="${MANAGEREPOSITORY}/images/dumb-init/Dockerfile.x86_64"
-        fi
-
-        manage _build_docker dumb-init
-    fi
-}
-
-onexit ()
-{
-    if (( $1 == 0 ))
+    if [[ -d "${MANAGE_REPOSITORY}/release/dumb-init" ]]
     then
-    if _ truth "$DOCKER"; then
-        true
-    else
-        _ warn "Exiting."
+        rm -rf "${MANAGE_REPOSITORY}/release/dumb-init"
     fi
-    else
-        _ error "An error with exit code \"$1\" has occured."
-    fi
+
+    mkdir -p "${MANAGE_REPOSITORY}/release/dumb-init"
+
+    _ info "Copying dumb-init binary"
+
+    docker run -it \
+        -u "$(id -u)" \
+        -v "${MANAGE_REPOSITORY}/release/dumb-init":/copy \
+        "${scope}"/dumb-init:latest cp dumb-init /copy/dumb-init-x86_64
+
+    (
+        cd "${MANAGE_REPOSITORY}/release/dumb-init" || _ die
+        sha256sum dumb* > SHA256SUMS
+    )
 }
+

@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+# @import console/die
+# @import console/error
+# @import array/join
+# @import lang/required
+# @import lang/exists
+# @import lang/executeIn
+# vim: set ft=sh:
+
+dockerBuild () (
+    strict true
+
+    exists docker || die "Cannot find 'docker' in path."
+
+    local imageDirectory="${DOCKER_DIRECTORY:-${MANAGE_REPOSITORY}/images}"
+    local scope="${DOCKER_SCOPE:-internal}"
+
+    build () {
+        local directory="$1" ; shift 1
+        declare -A tags
+        local cmd
+        local dockerFile
+        local prefix
+        local repository
+        local suffix
+        local tag
+        local localTags=()
+
+        for tag in "${@}"
+        do
+            tags["${tag}"]=1
+        done
+
+        if [[ -d "${directory}" ]]
+        then
+            repository="$(basename "${directory}")"
+
+            cd "${directory}" || die "${directory} does not exist"
+
+            dockerFile="${imageDirectory}/${repository}/Dockerfile"
+
+            if [[ -f "${dockerFile}" ]]
+            then
+                prefix=" -t ${scope}/${repository}:"
+                suffix="-f ${dockerFile} ${MANAGE_REPOSITORY}"
+                # shellcheck disable=SC2034
+                localTags+=($(MANAGE_TAG "tag" "${dockerFile}"))
+
+                for tag in "${localTags[@]}"
+                do
+                    tags["${tag}"]=1
+                done
+
+                if [ ${#tags[@]} -eq 0 ]
+                then
+                    tags["latest"]=1
+                fi
+
+                localTags=(${!tags[@]})
+
+                cmd="$(join localTags "${prefix}")"
+                cmd="docker build --force-rm${prefix}${cmd} ${suffix}"
+
+                executeIn "${MANAGE_REPOSITORY}" "${cmd}"
+            else
+                error "${dockerFile} does not exist"
+            fi
+        fi
+    }
+
+    required "$1" || return 1
+
+    local name="$1" ; shift 1
+
+    if [[ -d "${imageDirectory}/${name}" ]]
+    then
+        build "${imageDirectory}/${name}" "${@}"
+    else
+        die "Directory '${imageDirectory}/${name}' does not exist"
+    fi
+)

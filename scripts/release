@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+#
+# vim: set ft=sh:
+#
+# @description release docker tools
+# @import console/die
+# @import lang/required
+
+main ()
+{
+    verbose true
+    strict true
+
+    local tag="$1"
+    local message="$1"
+
+    _ required "${tag}" "${message}" || _ die "specify a version and a message"
+
+    local versionRegex="v([0-9]+)\.([0-9]+)\.([0-9]+)([0-9A-Za-z-])?"
+
+    if [[ ! "${tag}" =~ ^${versionRegex}$ ]]
+    then
+        _ die "invalid version"
+    fi
+
+    {
+        git diff --exit-code &&
+        git diff --cached --exit-code
+    } > /dev/null && _ die "working tree is clean"
+
+    git config user.name "Packaging"
+    git config user.email "packaging@epiloque.com"
+    git config user.signingkey 0x671C330913823C5B
+
+    git commit \
+        --gpg-sign=0x671C330913823C5B \
+        -m "$message"
+
+    git tag -d "${tag}" &> /dev/null || true
+    git tag -m "${message}" -s "${tag}"
+    git push --quiet --follow-tags
+}
+
+onExit ()
+{
+    git config user.name "Mark Milstein"
+    git config user.email "mark@epiloque.com"
+    git config --unset user.signingkey
+}

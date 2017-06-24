@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# @import console/info
+# @import console/error
+# @import console/die
+# @import docker/checkSha
+# @import lang/exists
+
+downloadGosu ()
+{
+    exists curl || die "Cannot find 'curl' in path"
+
+    local gosuTarget="${DUMB_INIT_TARGET:-${MANAGE_REPOSITORY}/vendor/gosu/gosu}"
+    local gosuSha256="${DUMB_INIT_SHA256:-d03e74e7f0e1bcfa7d7ae5b03426ae945742715e33d433360e90e49dc1f30039}"
+    local gosuUrl="${DUMB_INIT_URL:-https://github.com/epiloque/docker-base/releases/download/v1.0.2/gosu-amd64}"
+    local dumb_init_sha
+
+    if [ ! -f "${gosuTarget}" ]
+    then
+        mkdir -p "$(dirname "${gosuTarget}")"
+        curl -s -S -L --progress-bar "${gosuUrl}" -o "${gosuTarget}"
+    fi
+
+    dumb_init_sha="$(checkSha "${gosuTarget}")"
+
+    if [[ "${gosuSha256}" != "${dumb_init_sha}" ]]
+    then
+        rm "${gosuTarget}"
+        die 'gosu SHA256SUM did not match'
+    fi
+}
