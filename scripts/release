@@ -28,6 +28,7 @@ main ()
         git diff --cached --exit-code
     } > /dev/null && _ die "working tree is clean"
 
+
     git config user.name "Packaging"
     git config user.email "packaging@epiloque.com"
     git config user.signingkey 0x671C330913823C5B
