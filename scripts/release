@@ -16,7 +16,7 @@ main ()
 
     _ required "${tag}" "${message}" || _ die "specify a version and a message"
 
-    local versionRegex="v([0-9]+)\.([0-9]+)\.([0-9]+)([0-9A-Za-z-])?"
+    local versionRegex="v([0-9]+)\.([0-9]+)\.([0-9]+)([0-9A-Za-z-]*)?"
 
     if [[ ! "${tag}" =~ ^${versionRegex}$ ]]
     then

@@ -14,7 +14,7 @@ main ()
 
     _ info "Building dumb-init docker image"
 
-    # _ dockerBuild dumb-init
+    _ dockerBuild dumb-init
 
     if [[ -d "${MANAGE_REPOSITORY}/release/dumb-init" ]]
     then
