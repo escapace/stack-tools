@@ -39,7 +39,6 @@ main ()
         --gpg-sign=0x671C330913823C5B \
         -m "$message"
 
-
     if [ "${tag}" != "none" ]
     then
         git tag -d "${tag}" &> /dev/null || true
