@@ -9,9 +9,9 @@ downloadGosu ()
 {
     exists curl || die "Cannot find 'curl' in path"
 
-    local gosuTarget="${DUMB_INIT_TARGET:-${MANAGE_REPOSITORY}/vendor/gosu/gosu}"
-    local gosuSha256="${DUMB_INIT_SHA256:-d03e74e7f0e1bcfa7d7ae5b03426ae945742715e33d433360e90e49dc1f30039}"
-    local gosuUrl="${DUMB_INIT_URL:-https://github.com/epiloque/docker-base/releases/download/v1.0.2/gosu-amd64}"
+    local gosuTarget="${GOSU_TARGET:-${MANAGE_REPOSITORY}/vendor/gosu/gosu}"
+    local gosuSha256="${GOSU_SHA256:-347d0294d73c991c08408599bd21e241cc994947d1c43cd99cf49cfb783c89fd}"
+    local gosuUrl="${GOSU_URL:-https://github.com/epiloque/docker-base/releases/download/v1.0.3/gosu-amd64}"
     local dumb_init_sha
 
     if [ ! -f "${gosuTarget}" ]
