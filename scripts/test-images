@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# @description build and push centos & ubuntu test images
+# @import docker/dockerBuild
+# @import console/die
+# @import console/info
+# @dependency docker
+# @dependency sha256sum
+
+main ()
+{
+    verbose true
+    strict true
+    local scope="${DOCKER_SCOPE:-internal}"
+
+    _ dockerBuild test-centos
+    _ dockerBuild test-ubuntu
+
+    if [[ "${scope}" != "internal" ]]
+    then
+        docker push "${scope}/test-centos"
+        docker push "${scope}/test-ubuntu"
+    fi
+}
+

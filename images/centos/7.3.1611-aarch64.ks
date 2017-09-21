@@ -1,1 +1,0 @@
-../../vendor/sig-cloud-instance-build/docker/centos-7arm64.ks
