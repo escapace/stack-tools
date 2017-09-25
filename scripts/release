@@ -12,9 +12,9 @@ main ()
     strict true
 
     local tag="$1"
-    local message="$2"
+    local message="$1"
 
-    _ required "${tag}" "${message}" || _ die "specify a version and a message"
+    _ required "${tag}" || _ die "specify a version"
 
     local versionRegex="v([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?"
 
@@ -28,22 +28,15 @@ main ()
     {
         git diff --exit-code &&
         git diff --cached --exit-code
-    } > /dev/null && _ die "working tree is clean"
+    } > /dev/null ||  _ die "working tree is not clean"
 
 
     git config user.name "Packaging"
     git config user.email "packaging@epiloque.com"
     git config user.signingkey 0x671C330913823C5B
 
-    git commit \
-        --gpg-sign=0x671C330913823C5B \
-        -m "$message"
-
-    if [ "${tag}" != "none" ]
-    then
-        git tag -d "${tag}" &> /dev/null || true
-        git tag -m "${message}" -s "${tag}"
-    fi
+    git tag -d "${tag}" &> /dev/null || true
+    git tag -m "${message}" -s "${tag}"
 
     git push --quiet --follow-tags
 }
