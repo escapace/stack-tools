@@ -8,4 +8,4 @@ RUN yum -y update && \
     yum clean all
 
 RUN sed -i "s/^.*requiretty/#Defaults requiretty/" /etc/sudoers
-CMD "/bin/sh"
+ENTRYPOINT ["/usr/sbin/init"]
