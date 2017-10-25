@@ -1,6 +1,6 @@
 [submodule "vendor/manage"]
 	path = vendor/manage
-	url = https://github.com/epiloque/manage.git
+	url = https://github.com/escapace/manage.git
 [submodule "vendor/gosu"]
 	path = vendor/gosu
 	url = https://github.com/tianon/gosu.git

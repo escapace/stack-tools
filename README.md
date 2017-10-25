@@ -1,12 +1,12 @@
 <p align="right">
-    <a href="https://travis-ci.org/epiloque/docker-base">
-        <img src="https://img.shields.io/travis/epiloque/docker-base.svg?branch=master"
+    <a href="https://travis-ci.org/escapace/stack-tools">
+        <img src="https://img.shields.io/travis/escapace/stack-tools.svg?branch=master"
              alt="build status">
     </a>
 </p>
 
 
-# [docker-base](https://github.com/epiloque/docker-base)
+# [stack-tools](https://github.com/escapace/stack-tools)
 
 ```sh
 
@@ -35,7 +35,3 @@ to provide useful utilities:
 
 Docker is required for building since compiling steps happen in containers.
 Containers should tailor what they include depending on what they need.
-
-## [License](https://github.com/epiloque/docker-base#License)
-
-Released under the terms of the BSD-3-Clause license.

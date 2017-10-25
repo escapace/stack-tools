@@ -5,7 +5,7 @@ directories:
 
 # Environment variables
 env:
-  DOCKER_SCOPE: "epiloque"
+  DOCKER_SCOPE: "escapace"
 
 # Enable manage repository scripts
 enable:

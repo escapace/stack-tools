@@ -30,10 +30,9 @@ main ()
         git diff --cached --exit-code
     } > /dev/null ||  _ die "working tree is not clean"
 
-
-    git config user.name "Packaging"
-    git config user.email "packaging@epiloque.com"
-    git config user.signingkey 0x671C330913823C5B
+    git config user.name "escapace"
+    git config user.email "security@escapace.com"
+    git config user.signingkey 0xF29CCEBC83FD4525
 
     git tag -d "${tag}" &> /dev/null || true
     git tag -m "${message}" -s "${tag}"
@@ -43,7 +42,7 @@ main ()
 
 onExit ()
 {
-    git config user.name "Mark Milstein"
-    git config user.email "mark@epiloque.com"
+    git config --unset user.name
+    git config --unset user.email
     git config --unset user.signingkey
 }
