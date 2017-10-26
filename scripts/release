@@ -2,7 +2,7 @@
 #
 # vim: set ft=sh:
 #
-# @description release docker tools
+# @description release stack-tools
 # @import console/die
 # @import lang/required
 

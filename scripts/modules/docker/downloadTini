@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# @import console/die
+# @import lang/exists
+# @import stack-tools/stackToolsDefaults
+
+downloadTini ()
+{
+    verbose true
+    strict true
+
+    exists gpg || die "Cannot find 'gpg' in path."
+    exists curl || die "Cannot find 'gpg' in path."
+
+    stackToolsDefaults
+
+    {
+        gpg --batch --keyserver ha.pool.sks-keyservers.net \
+            --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 &> /dev/null
+    } || die "Cannot import krallin GPG key"
+
+    [ -z "${TINI_BINARY}" ] && die "'TINI_BINARY' is not defined"
+    [ -z "${TINI_BINARY_SIGNATURE}" ] && die "'TINI_BINARY_SIGNATURE' is not defined"
+    [ -z "${TINI_DIRECTORY}" ] && TINI_DIRECTORY="${MANAGE_REPOSITORY}/vendor/tini"
+
+    if [ ! -f "${TINI_DIRECTORY}/tini" ]
+    then
+        mkdir -p "${TINI_DIRECTORY}"
+        curl -0 -S -L --progress-bar "${TINI_BINARY}" -o "${TINI_DIRECTORY}/${TINI_BINARY##*/}"
+        curl -0 -s -S -L "${TINI_BINARY_SIGNATURE}" -o "${TINI_DIRECTORY}/${TINI_BINARY_SIGNATURE##*/}"
+
+        {
+            gpg --batch --verify "${TINI_DIRECTORY}/${TINI_BINARY_SIGNATURE##*/}" \
+                "${TINI_DIRECTORY}/${TINI_BINARY##*/}" &> /dev/null
+        } || die "Cannot verify '${TINI_BINARY##*/}'"
+
+        rm -f "${TINI_DIRECTORY}/${TINI_BINARY_SIGNATURE##*/}"
+
+        mv "${TINI_DIRECTORY}/${TINI_BINARY##*/}" "${TINI_DIRECTORY}/tini"
+        chmod +x "${TINI_DIRECTORY}/tini"
+    fi
+}

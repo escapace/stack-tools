@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# @description test stack-tools modules
+# @import docker/downloadTini
+# @import docker/downloadGosu
+# @import hashicorp/downloadPacker
+# @import hashicorp/downloadTerraform
+# @import restic/downloadRestic
+# @import console/info
+
+main ()
+{
+    verbose true
+    strict true
+    local code=0
+
+    rm -rf \
+        "${MANAGE_REPOSITORY:?}/vendor/tini" \
+        "${MANAGE_REPOSITORY:?}/vendor/gosu" \
+        "${MANAGE_REPOSITORY:?}/vendor/packer" \
+        "${MANAGE_REPOSITORY:?}/vendor/terraform" \
+        "${MANAGE_REPOSITORY:?}/vendor/restic"
+
+    _ info "Downloading tini ..."
+    _ downloadTini || ((exitCode++))
+    _ info "Downloading gosu ..."
+    _ downloadGosu || ((exitCode++))
+    _ info "Downloading packer ..."
+    _ downloadPacker || ((exitCode++))
+    _ info "Downloading terraform ..."
+    _ downloadTerraform || ((exitCode++))
+    _ info "Downloading restic ..."
+    _ downloadRestic || ((exitCode++))
+
+    exit "${code}"
+}
+
