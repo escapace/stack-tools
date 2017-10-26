@@ -1,30 +1,55 @@
 #!/usr/bin/env bash
-# @import console/info
-# @import console/error
 # @import console/die
-# @import docker/checkSha
+# @import hashicorp/hashicorpKey
 # @import lang/exists
+# @import stack-tools/stackToolsDefaults
 
 downloadGosu ()
 {
-    exists curl || die "Cannot find 'curl' in path"
+    verbose true
+    strict true
 
-    local gosuTarget="${GOSU_TARGET:-${MANAGE_REPOSITORY}/vendor/gosu/gosu}"
-    local gosuSha256="${GOSU_SHA256:-347d0294d73c991c08408599bd21e241cc994947d1c43cd99cf49cfb783c89fd}"
-    local gosuUrl="${GOSU_URL:-https://github.com/escapace/stack-tools/releases/download/v1.0.3/gosu-amd64}"
-    local dumb_init_sha
+    exists gpg || die "Cannot find 'gpg' in path."
+    exists curl || die "Cannot find 'gpg' in path."
+    exists unzip || die "Cannot find 'unzip' in path."
 
-    if [ ! -f "${gosuTarget}" ]
+    stackToolsDefaults
+
+    {
+        gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4
+    } || die "Cannot import tianon GPG key"
+
+    [ -z "${GOSU_BINARY}" ] && die "'GOSU_BINARY' is not defined"
+    [ -z "${GOSU_SHA256SUMS}" ] && die "'GOSU_SHA256SUMS' is not defined"
+    [ -z "${GOSU_SHA256SUMS_SIGNATURE}" ] && die "'GOSU_SHA256SUMS_SIGNATURE' is not defined"
+
+    [ -z "${GOSU_DIRECTORY}" ] && GOSU_DIRECTORY="${MANAGE_REPOSITORY}/vendor/gosu"
+
+    if [ ! -f "${GOSU_DIRECTORY}/packer" ]
     then
-        mkdir -p "$(dirname "${gosuTarget}")"
-        curl -s -S -L --progress-bar "${gosuUrl}" -o "${gosuTarget}"
-    fi
+        mkdir -p "${GOSU_DIRECTORY}"
+        curl -0 -S -L --progress-bar "${GOSU_BINARY}" -o "${GOSU_DIRECTORY}/${GOSU_BINARY##*/}"
+        curl -0 -s -S -L "${GOSU_BINARY_SIGNATURE}" -o "${GOSU_DIRECTORY}/${GOSU_BINARY_SIGNATURE##*/}"
+        curl -0 -s -S -L "${GOSU_SHA256SUMS}" -o "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS##*/}"
+        curl -0 -s -S -L "${GOSU_SHA256SUMS_SIGNATURE}" -o "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS_SIGNATURE##*/}"
 
-    dumb_init_sha="$(checkSha "${gosuTarget}")"
+        gpg --batch --verify "${GOSU_DIRECTORY}/${GOSU_BINARY_SIGNATURE##*/}" \
+            "${GOSU_DIRECTORY}/${GOSU_BINARY##*/}"
 
-    if [[ "${gosuSha256}" != "${dumb_init_sha}" ]]
-    then
-        rm "${gosuTarget}"
-        die 'gosu SHA256SUM did not match'
+        gpg --batch --verify "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS_SIGNATURE##*/}" \
+            "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS##*/}"
+
+        local SHA256SUM
+        SHA256SUM="$(grep "${GOSU_BINARY##*/}" "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS##*/}")"
+        echo "${SHA256SUM}" > "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS##*/}"
+
+        (
+            cd "${GOSU_DIRECTORY}" || die
+            sha256sum --status -c "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS##*/}"
+        )
+
+        rm -f "${GOSU_DIRECTORY}/${GOSU_BINARY_SIGNATURE##*/}" \
+            "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS##*/}" \
+            "${GOSU_DIRECTORY}/${GOSU_SHA256SUMS_SIGNATURE##*/}"
     fi
 }

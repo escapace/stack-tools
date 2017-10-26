@@ -2,7 +2,7 @@
 # @import console/info
 # @import console/error
 # @import console/die
-# @import docker/checkSha
+# @import generic/checkSha
 # @import lang/exists
 
 downloadDumbInit ()
