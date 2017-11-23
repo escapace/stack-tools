@@ -3,46 +3,12 @@
 # vim: set ft=sh:
 #
 # @description release stack-tools
-# @import console/die
-# @import lang/required
+# @import release/commit
 
 main ()
 {
     verbose true
     strict true
 
-    local tag="$1"
-    local message="$1"
-
-    _ required "${tag}" || _ die "specify a version"
-
-    local versionRegex="v([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?"
-
-    if [[ "${tag}" =~ ^${versionRegex}$ ]] || [[ "${tag}" == "none" ]]
-    then
-        true
-    else
-        _ die "invalid version"
-    fi
-
-    {
-        git diff --exit-code &&
-        git diff --cached --exit-code
-    } > /dev/null ||  _ die "working tree is not clean"
-
-    git config user.name "escapace"
-    git config user.email "security@escapace.com"
-    git config user.signingkey 0xF29CCEBC83FD4525
-
-    git tag -d "${tag}" &> /dev/null || true
-    git tag -m "${message}" -s "${tag}"
-
-    git push --quiet --follow-tags
-}
-
-onExit ()
-{
-    git config --unset user.name
-    git config --unset user.email
-    git config --unset user.signingkey
+    _ commit "${1}" "$2"
 }
