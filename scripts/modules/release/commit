@@ -49,7 +49,7 @@ function commit () {
     if (( code == 0 ))
     then
         (
-            git config user.name "${GIT_USER_SIGNINGKEY}"
+            git config user.name "${GIT_USER_NAME}"
             git config user.email "${GIT_USER_EMAIL}"
             git config user.signingkey "${GIT_USER_SIGNINGKEY}"
 
