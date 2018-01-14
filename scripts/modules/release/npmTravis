@@ -40,7 +40,7 @@ npmTravis ()
         if (( code == 0 ))
         then
             npmSetup
-            npm publish
+            npm publish --access public
         fi
     elif [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] &&
          [[ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]] &&
