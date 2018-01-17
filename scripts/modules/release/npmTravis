@@ -2,6 +2,7 @@
 # @import release/npmSetup
 # @import release/npmShouldPublish
 # @import console/error
+# @import console/info
 # @import lang/exists
 # @import array/includes
 # @import string/kebabCase
@@ -47,6 +48,7 @@ npmTravis ()
             if npmShouldPublish "${name}" "${version}"
             then
                 npm publish --access public
+                info "Published package ${name}@${version}"
             fi
         fi
     elif [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] &&
@@ -85,6 +87,7 @@ npmTravis ()
             if npmShouldPublish "${name}" "${version}"
             then
                 npm publish --access public --tag "${tag}"
+                info "Published package ${name}@${version}"
             fi
         fi
     else
