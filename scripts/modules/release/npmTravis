@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # @import release/npmSetup
+# @import release/npmShouldPublish
 # @import console/error
 # @import lang/exists
 # @import array/includes
@@ -14,9 +15,11 @@ npmTravis ()
 
     local code=0
     local version
+    local name
     local versionRegex='([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?'
 
     version="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
+    name="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
 
     if [[ -n "${TRAVIS_TAG}"                    ]] &&
        [[ "${TRAVIS_TAG}" =~ ^${versionRegex}$  ]] &&
@@ -40,7 +43,11 @@ npmTravis ()
         if (( code == 0 ))
         then
             npmSetup
-            npm publish --access public
+
+            if npmShouldPublish "${name}" "${version}"
+            then
+                npm publish --access public
+            fi
         fi
     elif [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] &&
          [[ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]] &&
@@ -74,7 +81,11 @@ npmTravis ()
             npmSetup
             version="${version}-${tag}.${TRAVIS_COMMIT:0:7}"
             npm --no-git-tag-version version "${version}"
-            npm publish --access public --tag "${tag}"
+
+            if npmShouldPublish "${name}" "${version}"
+            then
+                npm publish --access public --tag "${tag}"
+            fi
         fi
     else
         npm run build || {
