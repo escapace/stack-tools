@@ -81,7 +81,7 @@ npmTravis ()
         then
             tag="$(kebabCase "${TRAVIS_BRANCH}")"
             npmSetup
-            version="${version}-${tag}.${TRAVIS_COMMIT:0:7}"
+            version="${version}-${tag}.${TRAVIS_COMMIT:0:8}"
             npm --no-git-tag-version version "${version}"
 
             if npmShouldPublish "${name}" "${version}"
