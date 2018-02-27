@@ -3,7 +3,7 @@
 [![build status](https://secure.travis-ci.org/escapace/stack-tools.png)](https://travis-ci.org/escapace/stack-tools)
 [![license](https://img.shields.io/badge/license-Mozilla%20Public%20License%20Version%202.0-blue.svg)](<>)
 
-Collection of [manage](https://github.com/escapace/manage) modules shared by projects across the escapace stack.
+Collection of [manage](https://github.com/escapace/manage) modules shared by projects across the Escapace stack.
 
 &nbsp;
 
