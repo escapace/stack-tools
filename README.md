@@ -5,6 +5,8 @@
 
 Collection of [manage](https://github.com/escapace/manage) modules shared by projects across the escapace stack.
 
+&nbsp;
+
 ## `release/npmTravis`
 
 A build, test and release convention for [npm](https://npmjs.com) packages.
