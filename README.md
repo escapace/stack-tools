@@ -1,6 +1,6 @@
 # [stack-tools](https://github.com/escapace/stack-tools)
 
-Collection of manage modules shared by projects across the escapace stack.
+Collection of [manage](https://github.com/escapace/manage) modules shared by projects across the escapace stack.
 
 ## `docker/dockerBuild`
 
