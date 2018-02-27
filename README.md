@@ -9,19 +9,23 @@ Collection of [manage](https://github.com/escapace/manage) modules shared by pro
 
 A build, test and release convention for [npm](https://npmjs.com) packages.
 
-| Environment Variable   |   Default  | Description           |
-| ---------------------- | :--------: | --------------------- |
-| `NPM_PUBLISH_BRANCHES`     |  `master` | npm publish branches |
+| Environment Variable   |  Default | Description          |
+| ---------------------- | :------: | -------------------- |
+| `NPM_PUBLISH_BRANCHES` | `master` | npm publish branches |
+
+&nbsp;
 
 ## `release/npmCommit`
 
 A release commit convention for for [npm](https://npmjs.com) packages.
 
-| Environment Variable   |   Default  | Description           |
-| ---------------------- | :--------: | --------------------- |
-| `GIT_USER_NAME`     |   | git user name |
-| `GIT_USER_EMAIL`         |  | git user email    |
-| `GIT_USER_SIGNINGKEY` |   | gpg signing key  |
+| Environment Variable  | Default | Description     |
+| --------------------- | :-----: | --------------- |
+| `GIT_USER_NAME`       |         | git user name   |
+| `GIT_USER_EMAIL`      |         | git user email  |
+| `GIT_USER_SIGNINGKEY` |         | gpg signing key |
+
+&nbsp;
 
 ## `docker/dockerBuild`
 
@@ -33,15 +37,19 @@ A directory structure convention for building [docker](https://www.docker.com/) 
 | `DOCKER_SCOPE`         | `internal` | Docker image scope    |
 | `DOCKER_BUILD_OPTIONS` |   `--rm`   | Docker build options  |
 
+&nbsp;
+
 ## `docker/downloadGosu`
 
-Download and verify [gosu](https://github.com/tianon/gosu) - makes it less of a pain to
- switch to other users without introducing a `su` or `sudo` intermediate
- process.
+Download and verify [gosu](https://github.com/tianon/gosu) - makes it less of a
+pain to switch to other users without introducing a `su` or `sudo` intermediate
+process.
 
 | Environment Variable |                        Default                       | Description  |
 | -------------------- | :--------------------------------------------------: | ------------ |
 | `GOSU_VERSION`       | […](/scripts/modules/stack-tools/stackToolsDefaults) | gosu version |
+
+&nbsp;
 
 ## `docker/downloadTini`
 
@@ -51,6 +59,8 @@ Download and verify [tini](https://github.com/krallin/tini) - spawns a single ch
 | -------------------- | :--------------------------------------------------: | ------------ |
 | `TINI_VERSION`       | […](/scripts/modules/stack-tools/stackToolsDefaults) | tini version |
 
+&nbsp;
+
 ## `hashicorp/downloadPacker`
 
 Download and verify HashiCorp’s [packer](https://www.packer.io) - a tool for creating identical machine images for multiple platforms from a single source configuration.
@@ -59,13 +69,18 @@ Download and verify HashiCorp’s [packer](https://www.packer.io) - a tool for c
 | -------------------- | :--------------------------------------------------: | -------------- |
 | `PACKER_VERSION`     | […](/scripts/modules/stack-tools/stackToolsDefaults) | packer version |
 
+&nbsp;
+
 ## `hashicorp/downloadTerraform`
 
-Download and verify HashiCorp’s [terraform](https://www.terraform.io/) - safely and predictably create, change, and improve infrastructure.
+Download and verify HashiCorp’s [terraform](https://www.terraform.io/) - safely
+and predictably create, change, and improve infrastructure.
 
 | Environment Variable |                        Default                       | Description       |
 | -------------------- | :--------------------------------------------------: | ----------------- |
 | `TERRAFORM_VERSION`  | […](/scripts/modules/stack-tools/stackToolsDefaults) | terraform version |
+
+&nbsp;
 
 ## `restic/downloadRestic`
 
@@ -74,6 +89,8 @@ Download and verify [restic](https://github.com/restic/restic) - fast, secure, e
 | Environment Variable |                        Default                       | Description    |
 | -------------------- | :--------------------------------------------------: | -------------- |
 | `RESTIC_VERSION`     | […](/scripts/modules/stack-tools/stackToolsDefaults) | restic version |
+
+&nbsp;
 
 ## License
 
