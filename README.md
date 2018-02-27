@@ -5,9 +5,27 @@
 
 Collection of [manage](https://github.com/escapace/manage) modules shared by projects across the escapace stack.
 
+## `release/npmTravis`
+
+A build, test and release convention for [npm](https://npmjs.com) packages.
+
+| Environment Variable   |   Default  | Description           |
+| ---------------------- | :--------: | --------------------- |
+| `NPM_PUBLISH_BRANCHES`     |  `master` | npm publish branches |
+
+## `release/npmCommit`
+
+A release commit convention for for [npm](https://npmjs.com) packages.
+
+| Environment Variable   |   Default  | Description           |
+| ---------------------- | :--------: | --------------------- |
+| `GIT_USER_NAME`     |   | git user name |
+| `GIT_USER_EMAIL`         |  | git user email    |
+| `GIT_USER_SIGNINGKEY` |   | gpg signing key  |
+
 ## `docker/dockerBuild`
 
-A directory structure convention for building docker images.
+A directory structure convention for building [docker](https://www.docker.com/) images.
 
 | Environment Variable   |   Default  | Description           |
 | ---------------------- | :--------: | --------------------- |
