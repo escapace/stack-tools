@@ -86,15 +86,15 @@ function npmCommit () {
             } > /dev/null ||  {
                 git add "${MANAGE_REPOSITORY}/package.json"
 
-                git commit -n -q --gpg-sign="${GIT_USER_SIGNINGKEY}" -m "${message}"
+                git commit --no-verify -n -q --gpg-sign="${GIT_USER_SIGNINGKEY}" -m "${message}"
             }
 
-            git push origin :"${tag}" &> /dev/null || true
+            git push --no-verify origin :"${tag}" &> /dev/null || true
             git tag -d "${tag}" &> /dev/null || true
 
             git tag -m "${message}" -s "${tag}"
 
-            git push --quiet --follow-tags
+            git push --no-verify --quiet --follow-tags
         ) || ((code++))
     else
         git checkout -q "${MANAGE_REPOSITORY}/package.json"
