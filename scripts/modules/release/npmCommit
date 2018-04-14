@@ -61,6 +61,18 @@ function npmCommit () {
         echo "${tmp}" > "${MANAGE_REPOSITORY}/package.json"
     fi
 
+    if [[ -f "${MANAGE_REPOSITORY}/README.md" ]] &&
+       (( code == 0 ))
+    then
+        local updateReadme="$(jq -r '.scripts | ."update-readme" // empty' < 'package.json' )"
+        if _ required "${updateReadme}"
+        then
+            npm run update-readme || {
+                ((code++))
+            }
+        fi
+    fi
+
     if (( code == 0 ))
     then
         (
@@ -73,9 +85,13 @@ function npmCommit () {
                 git diff --cached --exit-code
             } > /dev/null ||  {
                 git add "${MANAGE_REPOSITORY}/package.json"
+                if [[ -f "${MANAGE_REPOSITORY}/README.md" ]]
+                then
+                    git add "${MANAGE_REPOSITORY}/README.md"
+                fi
+
                 git commit -n -q --gpg-sign="${GIT_USER_SIGNINGKEY}" -m "${message}"
             }
-
 
             git push origin :"${tag}" &> /dev/null || true
             git tag -d "${tag}" &> /dev/null || true
