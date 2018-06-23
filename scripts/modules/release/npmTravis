@@ -58,6 +58,7 @@ npmTravis ()
     then
         local branches
         local tag
+        local email
 
         [ -z "${NPM_PUBLISH_BRANCHES}" ] && NPM_PUBLISH_BRANCHES="master"
 
@@ -76,8 +77,11 @@ npmTravis ()
             }
         fi
 
+        email="$(git log -1 "${TRAVIS_COMMIT}" --pretty="%aE")"
+
         if includes branches "${TRAVIS_BRANCH}" &&
-           (( code == 0 ))
+           (( code == 0 )) &&
+           [[ "${email}" != "bot@renovateapp.com" ]]
         then
             tag="$(kebabCase "${TRAVIS_BRANCH}")"
             npmSetup
