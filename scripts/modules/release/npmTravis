@@ -81,7 +81,8 @@ npmTravis ()
 
         if includes branches "${TRAVIS_BRANCH}" &&
            (( code == 0 )) &&
-           [[ "${email}" != "bot@renovateapp.com" ]]
+           [[ "${email}" != "bot@renovateapp.com" ]] &&
+           [[ "${email}" != "renovate[bot]@users.noreply.github.com" ]]
         then
             tag="$(kebabCase "${TRAVIS_BRANCH}")"
             npmSetup
