@@ -11,7 +11,7 @@ function stackToolsDefaults () {
     arch="$(conventionalArchitecture)" || die "Unsupported architecture"
     garch="$(goArchitecture)" || die "Unsupported architecture"
 
-    TINI_VERSION="${TINI_VERSION:-v0.16.1}"
+    TINI_VERSION="${TINI_VERSION:-v0.18.0}"
     TINI_BINARY="${TINI_BINARY:-https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${garch}}"
     TINI_BINARY_SIGNATURE="${TINI_SHA256SUMS_SIGNATURE:-https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-${garch}.asc}"
 
