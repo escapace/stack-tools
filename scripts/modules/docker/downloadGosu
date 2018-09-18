@@ -2,6 +2,7 @@
 # @import console/die
 # @import lang/exists
 # @import stack-tools/stackToolsDefaults
+# @import manage/trust
 
 downloadGosu ()
 {
@@ -13,10 +14,7 @@ downloadGosu ()
 
     stackToolsDefaults
 
-    {
-        gpg --batch --keyserver ha.pool.sks-keyservers.net \
-            --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 &> /dev/null
-    } || die "Cannot import tianon GPG key"
+    trust B42F6819007F00F88E364FD4036A9C25BF357DD4 || die "Cannot import tianon GPG key"
 
     [ -z "${GOSU_BINARY}" ] && die "'GOSU_BINARY' is not defined"
     [ -z "${GOSU_BINARY_SIGNATURE}" ] && die "'GOSU_BINARY_SIGNATURE' is not defined"

@@ -2,6 +2,7 @@
 # @import console/die
 # @import lang/exists
 # @import stack-tools/stackToolsDefaults
+# @import manage/trust
 
 downloadRestic ()
 {
@@ -14,10 +15,7 @@ downloadRestic ()
 
     stackToolsDefaults
 
-    {
-        gpg --batch --keyserver ha.pool.sks-keyservers.net \
-            --recv-keys CF8F18F2844575973F79D4E191A6868BD3F7A907 &> /dev/null
-    } || die "Cannot import Alexander Neumann (https://github.com/fd0) GPG key"
+    trust CF8F18F2844575973F79D4E191A6868BD3F7A907 || die "Cannot import Alexander Neumann (https://github.com/fd0) GPG key"
 
     [ -z "${RESTIC_BINARY}" ] && die "'RESTIC_BINARY' is not defined"
     [ -z "${RESTIC_SHA256SUMS}" ] && die "'RESTIC_SHA256SUMS' is not defined"

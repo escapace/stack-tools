@@ -2,6 +2,7 @@
 # @import console/die
 # @import lang/exists
 # @import stack-tools/stackToolsDefaults
+# @import manage/trust
 
 downloadTerraform ()
 {
@@ -14,10 +15,7 @@ downloadTerraform ()
 
     stackToolsDefaults
 
-    {
-        gpg --batch --keyserver ha.pool.sks-keyservers.net \
-            --recv-keys 91A6E7F85D05C65630BEF18951852D87348FFC4C &> /dev/null
-    } || die "Cannot import HashiCorp GPG key"
+    trust 91A6E7F85D05C65630BEF18951852D87348FFC4C || die "Cannot import HashiCorp GPG key"
 
     [ -z "${TERRAFORM_BINARY}" ] && die "'TERRAFORM_BINARY' is not defined"
     [ -z "${TERRAFORM_SHA256SUMS}" ] && die "'TERRAFORM_SHA256SUMS' is not defined"
