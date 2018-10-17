@@ -1,7 +1,7 @@
-# @tag 16.04
-# @tag xenial
+# @tag 18.04
+# @tag bionic
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install -y sudo \
     python \
