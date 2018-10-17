@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# @import console/error
+
+function OSType () {
+    local ostype
+
+    ostype=$(uname)
+
+    case "${ostype}" in
+        Linux*)
+            ostype="linux"
+            ;;
+        Darwin*)
+            ostype="darwin"
+            ;;
+        FreeBSD*)
+            ostype="freebsd"
+            ;;
+        *)
+            error "Unknown OS type"
+            return 1
+    esac
+
+    echo ${ostype}
+}
