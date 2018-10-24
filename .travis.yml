@@ -14,9 +14,11 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install -y -o Dpkg::Options::="--force-confnew" docker-ce
 script:
-- ./manage test
-
+- "./manage test"
 branches:
   only:
   - master
   - next
+notifications:
+  slack:
+    secure: qsN1IheSK4Ccyo0093VQ/CVzfSveq1F66dZ39+NAxLLu0bZHN60APpjEERkejQCDtdW4YXX1ul2OFssUo5vbKjtMmKD2o1tcSch8Yuyhoyt7ICvMr9FuQ6m4gjweSql8YA4ja0tDneOYxtd2upyl36fj8KgcwcNuZa8QKUfU9I5Q4AT0xgJE7DfTH8NpCd1Pe+iSS6dMThyUHKBVw9kr/bTHBckAZ6U7lzzfcpPn0hHauAy6M/SrromMEZNcUPyG1lfWEozdoBwR/rDqO+buBpBjobTlqvUgH0IDaSf2RpWWRUHU+VDAAQ7bRGUtcs2I34xdPYQsn6xU75lnPm0KzOiYzn1BP2e1m4AP3K7jG19CVsuKr867uLPD2JkAXe3tuGzIyX4LA2pBF1tn9R54DB5jASaPvIPOQri8c4dhYhFQg5Uh75QwKR6Q+IiT60G2GVLi/8I8xP5LeXVg5y+bhv2vmhwfhkpYxmnEqm4rYqI/3WlzT91kUCpqL+7Nlyv+TKaVF//V+NWp9pISkQ3f5LxU3jhfGIIXMMlnNpbpAkxrncc+f1ciXfzWBnMAUP7O8uZEUuHvez+jYXZpnOBn4/vNu/kt3x0kTLvS2xjld9LOoercRdqeOsj1eEb9BeG3TkbaAFjdP2v4mUjrfYR7Rzbbc6oTia5hA3RuMGWoFCs=
