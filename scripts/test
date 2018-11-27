@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # @description test stack-tools modules
-# @import docker/downloadTini
 # @import docker/downloadGosu
+# @import docker/downloadTini
 # @import hashicorp/downloadPacker
 # @import hashicorp/downloadTerraform
 # @import restic/downloadRestic
+# @import sharkdp/downloadHyperfine
 # @import console/info
 
 main ()
@@ -18,7 +19,8 @@ main ()
         "${MANAGE_REPOSITORY:?}/vendor/gosu" \
         "${MANAGE_REPOSITORY:?}/vendor/packer" \
         "${MANAGE_REPOSITORY:?}/vendor/terraform" \
-        "${MANAGE_REPOSITORY:?}/vendor/restic"
+        "${MANAGE_REPOSITORY:?}/vendor/restic" \
+        "${MANAGE_REPOSITORY:?}/vendor/hyperfine" \
 
     _ info "Downloading tini ..."
     _ downloadTini || ((exitCode++))
@@ -30,6 +32,8 @@ main ()
     _ downloadTerraform || ((exitCode++))
     _ info "Downloading restic ..."
     _ downloadRestic || ((exitCode++))
+    _ info "Downloading hyperfine..."
+    _ downloadHyperfine || ((exitCode++))
 
     exit "${code}"
 }

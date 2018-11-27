@@ -4,17 +4,23 @@
 function OSType () {
     local ostype
 
-    ostype=$(uname)
+    ostype="$(uname)"
 
     case "${ostype}" in
-        Linux*)
+        Linux)
             ostype="linux"
             ;;
-        Darwin*)
+        Darwin)
             ostype="darwin"
             ;;
-        FreeBSD*)
+        FreeBSD)
             ostype="freebsd"
+            ;;
+        NetBSD)
+            ostype="netbsd"
+            ;;
+        *MINGW* | *WIN32* | *CYGWIN*)
+            ostype="windows"
             ;;
         *)
             error "Unknown OS type"

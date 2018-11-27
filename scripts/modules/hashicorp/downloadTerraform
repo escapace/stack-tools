@@ -10,7 +10,7 @@ downloadTerraform ()
     strict true
 
     exists gpg || die "Cannot find 'gpg' in path."
-    exists curl || die "Cannot find 'gpg' in path."
+    exists curl || die "Cannot find 'curl' in path."
     exists unzip || die "Cannot find 'unzip' in path."
 
     stackToolsDefaults

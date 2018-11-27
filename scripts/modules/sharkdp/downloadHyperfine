@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+# @import console/die
+# @import lang/exists
+# @import stack-tools/stackToolsDefaults
+
+downloadHyperfine ()
+{
+    verbose true
+    strict true
+
+    exists curl || die "Cannot find 'curl' in path."
+
+    stackToolsDefaults
+
+    local arch
+    local suffix
+    local name="hyperfine"
+
+    suffix="$(uname)"
+    arch="$(uname -m)"
+
+    case "${arch}" in
+        # armv6*)
+        #     arch="arm"
+        #     ;;
+        x86_64)
+            arch="x86_64"
+            ;;
+        x86)
+            arch="i686"
+            ;;
+        i686)
+            arch="i686"
+            ;;
+        i386)
+            arch="i686"
+            ;;
+        *)
+            error "Unknown architecture: ${arch}"
+            return 1
+    esac
+
+    case "${suffix}" in
+        Linux)
+            suffix="unknown-linux-musl.tar.gz"
+            ;;
+        Darwin)
+            suffix="apple-darwin.tar.gz"
+            ;;
+        *MINGW* | *WIN32* | *CYGWIN*)
+            name="hyperfine.exe"
+            suffix="pc-windows-msvc.zip"
+            ;;
+        *)
+            error "Unknown OS type"
+            return 1
+    esac
+
+    HYPERFINE_BINARY="${HYPERFINE_BINARY:-https://github.com/sharkdp/hyperfine/releases/download/${HYPERFINE_VERSION}/hyperfine-${HYPERFINE_VERSION}-${arch}-${suffix}}"
+
+    [ -z "${HYPERFINE_BINARY}" ] && die "'HYPERFINE_BINARY' is not defined"
+
+    [ -z "${HYPERFINE_DIRECTORY}" ] &&
+      HYPERFINE_DIRECTORY="${MANAGE_REPOSITORY}/vendor/hyperfine"
+
+    if [ ! -f "${HYPERFINE_DIRECTORY}/${name}" ]
+    then
+        mkdir -p "${HYPERFINE_DIRECTORY}"
+        curl -0 -S -L --progress-bar "${HYPERFINE_BINARY}" -o "${HYPERFINE_DIRECTORY}/${HYPERFINE_BINARY##*/}"
+
+        if [[ "${HYPERFINE_BINARY##*/}" == *tar.gz ]]
+        then
+            _ exists tar || die "Cannot find 'tar' in path."
+
+            tar -xf "${HYPERFINE_DIRECTORY}/${HYPERFINE_BINARY##*/}" -C \
+                "${HYPERFINE_DIRECTORY}" --strip 1
+
+        else
+            _ exists unzip || die "Cannot find 'unzip' in path."
+
+            unzip -qq "${HYPERFINE_DIRECTORY}/${HYPERFINE_BINARY##*/}" -d "${HYPERFINE_DIRECTORY}"
+        fi
+
+        chmod +x "${HYPERFINE_DIRECTORY}/${name}"
+        rm -f "${HYPERFINE_DIRECTORY}/${HYPERFINE_BINARY##*/}"
+    fi
+}
