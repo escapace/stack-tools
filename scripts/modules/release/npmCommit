@@ -4,7 +4,6 @@
 
 function npmCommit () {
     local tag="$1"
-    local message="$1"
     local version
     local code=0
 
@@ -26,8 +25,6 @@ function npmCommit () {
         ((code++))
     }
 
-    required "${message}" || message="${tag}"
-
     local versionRegex="([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?"
 
     if [[ "${tag}" =~ ^${versionRegex}$ ]]
@@ -37,6 +34,8 @@ function npmCommit () {
         error "Invalid version"
         ((code++))
     fi
+
+    local message="chore(release): publish v${tag}"
 
     {
         git diff --exit-code &&
@@ -61,11 +60,13 @@ function npmCommit () {
         echo "${tmp}" > "${MANAGE_REPOSITORY}/package.json"
     fi
 
-    if [[ -f "${MANAGE_REPOSITORY}/README.md" ]] &&
-       (( code == 0 ))
+    if (( code == 0 ))
     then
-        local updateReadme="$(jq -r '.scripts | .prerelease // empty' < 'package.json' )"
-        if _ required "${updateReadme}"
+        local prerelease
+
+        prerelease="$(jq -r '.scripts | .prerelease // empty' < 'package.json' )"
+
+        if _ required "${prerelease}"
         then
             npm run prerelease || {
                 ((code++))
@@ -89,10 +90,9 @@ function npmCommit () {
                 git commit --no-verify -n -q --gpg-sign="${GIT_USER_SIGNINGKEY}" -m "${message}"
             }
 
-            git push --no-verify origin :"${tag}" &> /dev/null || true
-            git tag -d "${tag}" &> /dev/null || true
-
-            git tag -m "${message}" -s "${tag}"
+            git push --no-verify origin :"v${tag}" &> /dev/null || true
+            git tag -d "v${tag}" &> /dev/null || true
+            git tag -m "v${tag}" -s "v${tag}"
 
             git push --no-verify --quiet --follow-tags
         ) || ((code++))

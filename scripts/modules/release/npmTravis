@@ -17,7 +17,7 @@ npmTravis ()
     local code=0
     local version
     local name
-    local versionRegex='([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?'
+    local versionRegex='v([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?'
 
     version="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
     name="$(jq -r '.name // empty' < "${MANAGE_REPOSITORY}/package.json")"
@@ -26,7 +26,7 @@ npmTravis ()
        [[ "${TRAVIS_TAG}" =~ ^${versionRegex}$  ]] &&
        [[ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]] &&
        [[ -n "${NPM_TOKEN}"                     ]] &&
-       [[ "${version}" == "${TRAVIS_TAG}"      ]]
+       [[ "v${version}" == "${TRAVIS_TAG}"      ]]
     then
         npm run test:travis || {
             error "Failed on 'npm run test:travis'"
@@ -86,7 +86,12 @@ npmTravis ()
         then
             tag="$(kebabCase "${TRAVIS_BRANCH}")"
             npmSetup
+
+            npm --no-git-tag-version version minor
+            version="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
+
             version="${version}-${tag}.${TRAVIS_COMMIT:0:8}"
+
             npm --no-git-tag-version version "${version}"
 
             if npmShouldPublish "${name}" "${version}"
@@ -96,15 +101,18 @@ npmTravis ()
             fi
         fi
     else
-        npm run build || {
-            error "Failed on 'npm run build'"
-            ((code++))
-        }
-
         npm run test:travis || {
             error "Failed on 'npm run test:travis'"
             ((code++))
         }
+
+        if (( code == 0 ))
+        then
+            npm run build || {
+                error "Failed on 'npm run build'"
+                ((code++))
+            }
+        fi
     fi
 
     return "${code}"
