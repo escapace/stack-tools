@@ -87,9 +87,6 @@ npmTravis ()
             tag="$(kebabCase "${TRAVIS_BRANCH}")"
             npmSetup
 
-            npm --no-git-tag-version version minor
-            version="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
-
             version="${version}-${tag}.${TRAVIS_COMMIT:0:8}"
 
             npm --no-git-tag-version version "${version}"
