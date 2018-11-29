@@ -25,7 +25,7 @@ function npmCommit () {
         ((code++))
     }
 
-    local versionRegex="([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?"
+    local versionRegex='([0-9]+)\.([0-9]+)\.([0-9]+)([\.0-9A-Za-z-]*)?'
 
     if [[ "${tag}" =~ ^${versionRegex}$ ]]
     then
