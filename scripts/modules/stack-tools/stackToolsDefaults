@@ -9,10 +9,18 @@ function stackToolsDefaults () {
     local arch
     local garch
     local ostype
+    local osxOSType
 
     arch="$(conventionalArchitecture)" || die "Unsupported architecture"
     garch="$(goArchitecture)" || die "Unsupported architecture"
     ostype="$(OSType)" || die "Unsupported OS"
+
+    osxOSType="${ostype}"
+
+    if [[ "${osxOSType}" == "darwin" ]]
+    then
+        osxOSType="osx"
+    fi
 
     HYPERFINE_VERSION="${HYPERFINE_VERSION:-1.4.0}"
 
@@ -40,4 +48,7 @@ function stackToolsDefaults () {
     RESTIC_BINARY="${RESTIC_BINARY:-https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_${ostype}_${arch}.bz2}"
     RESTIC_SHA256SUMS="${RESTIC_SHA256SUMS:-https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/SHA256SUMS}"
     RESTIC_SHA256SUMS_SIGNATURE="${RESTIC_SHA256SUMS_SIGNATURE:-https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/SHA256SUMS.asc}"
+
+    RCLONE_VERSION="${RCLONE_VERSION:-1.45}"
+    RCLONE_BINARY="${RCLONE_BINARY:-https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-${osxOSType}-${arch}.zip}"
 }

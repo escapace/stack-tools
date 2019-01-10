@@ -16,6 +16,9 @@ function OSType () {
         FreeBSD)
             ostype="freebsd"
             ;;
+        OpenBSD)
+            ostype="openbsd"
+            ;;  
         NetBSD)
             ostype="netbsd"
             ;;

@@ -6,6 +6,7 @@
 # @import hashicorp/downloadTerraform
 # @import restic/downloadRestic
 # @import sharkdp/downloadHyperfine
+# @import ncw/downloadRclone
 # @import console/info
 
 main ()
@@ -21,6 +22,7 @@ main ()
         "${MANAGE_REPOSITORY:?}/vendor/terraform" \
         "${MANAGE_REPOSITORY:?}/vendor/restic" \
         "${MANAGE_REPOSITORY:?}/vendor/hyperfine" \
+        "${MANAGE_REPOSITORY:?}/vendor/rclone"
 
     _ info "Downloading tini ..."
     _ downloadTini || ((exitCode++))
@@ -34,6 +36,8 @@ main ()
     _ downloadRestic || ((exitCode++))
     _ info "Downloading hyperfine..."
     _ downloadHyperfine || ((exitCode++))
+    _ info "Downloading rclone..."
+    _ downloadRclone || ((exitCode++))
 
     exit "${code}"
 }
