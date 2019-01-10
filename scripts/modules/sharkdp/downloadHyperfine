@@ -56,7 +56,7 @@ downloadHyperfine ()
             return 1
     esac
 
-    HYPERFINE_BINARY="${HYPERFINE_BINARY:-https://github.com/sharkdp/hyperfine/releases/download/${HYPERFINE_VERSION}/hyperfine-${HYPERFINE_VERSION}-${arch}-${suffix}}"
+    HYPERFINE_BINARY="${HYPERFINE_BINARY:-https://github.com/sharkdp/hyperfine/releases/download/v${HYPERFINE_VERSION}/hyperfine-v${HYPERFINE_VERSION}-${arch}-${suffix}}"
 
     [ -z "${HYPERFINE_BINARY}" ] && die "'HYPERFINE_BINARY' is not defined"
 
