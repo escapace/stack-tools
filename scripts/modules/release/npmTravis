@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # @import release/npmSetup
 # @import release/npmShouldPublish
+# @import release/npmIsPrivate
 # @import console/error
 # @import console/info
 # @import lang/exists
@@ -43,12 +44,16 @@ npmTravis ()
 
         if (( code == 0 ))
         then
-            npmSetup
 
-            if npmShouldPublish "${name}" "${version}"
+            if ! npmIsPrivate "${MANAGE_REPOSITORY}/package.json"
             then
-                npm publish --access public
-                info "Published package ${name}@${version}"
+                npmSetup
+
+                if npmShouldPublish "${name}" "${version}"
+                then
+                    npm publish --access public
+                    info "Published package ${name}@${version}"
+                fi
             fi
         fi
     elif [[ "${TRAVIS_PULL_REQUEST}" == "false" ]] &&
@@ -84,20 +89,23 @@ npmTravis ()
            [[ "${email}" != "bot@renovateapp.com" ]] &&
            [[ "${email}" != "renovate[bot]@users.noreply.github.com" ]]
         then
-            tag="$(kebabCase "${TRAVIS_BRANCH}")"
-            npmSetup
-
-            npm --no-git-tag-version version patch
-            version="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
-
-            version="${version}-${tag}.${TRAVIS_COMMIT:0:8}"
-
-            npm --no-git-tag-version version "${version}"
-
-            if npmShouldPublish "${name}" "${version}"
+            if ! npmIsPrivate "${MANAGE_REPOSITORY}/package.json"
             then
-                npm publish --access public --tag "${tag}"
-                info "Published package ${name}@${version}"
+                tag="$(kebabCase "${TRAVIS_BRANCH}")"
+                npmSetup
+
+                npm --no-git-tag-version version patch
+                version="$(jq -r '.version // empty' < "${MANAGE_REPOSITORY}/package.json")"
+
+                version="${version}-${tag}.${TRAVIS_COMMIT:0:8}"
+
+                npm --no-git-tag-version version "${version}"
+
+                if npmShouldPublish "${name}" "${version}"
+                then
+                    npm publish --access public --tag "${tag}"
+                    info "Published package ${name}@${version}"
+                fi
             fi
         fi
     else
