@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# @import console/die
+# @import lang/exists
+# @import stack-tools/stackToolsDefaults
+# @import manage/trust
+
+downloadTflint ()
+{
+    verbose true
+    strict true
+
+    exists curl || die "Cannot find 'curl' in path."
+    exists unzip || die "Cannot find 'unzip' in path."
+
+    stackToolsDefaults
+
+    [ -z "${TFLINT_BINARY}" ] && die "'TFLINT_BINARY' is not defined"
+
+    [ -z "${TFLINT_DIRECTORY}" ] && TFLINT_DIRECTORY="${MANAGE_REPOSITORY}/vendor/tflint"
+
+    if [ ! -f "${TFLINT_DIRECTORY}/tflint" ]
+    then
+        mkdir -p "${TFLINT_DIRECTORY}"
+        curl -0 -S -L --progress-bar "${TFLINT_BINARY}" -o "${TFLINT_DIRECTORY}/${TFLINT_BINARY##*/}"
+
+        unzip -qq "${TFLINT_DIRECTORY}/${TFLINT_BINARY##*/}" -d "${TFLINT_DIRECTORY}"
+        rm -f "${TFLINT_DIRECTORY}/${TFLINT_BINARY##*/}"
+
+        chmod +x "${TFLINT_DIRECTORY}/tflint"
+    fi
+}

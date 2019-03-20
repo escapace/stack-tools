@@ -7,6 +7,7 @@
 # @import restic/downloadRestic
 # @import sharkdp/downloadHyperfine
 # @import ncw/downloadRclone
+# @import tflint/downloadTflint
 # @import console/info
 
 main ()
@@ -22,7 +23,8 @@ main ()
         "${MANAGE_REPOSITORY:?}/vendor/terraform" \
         "${MANAGE_REPOSITORY:?}/vendor/restic" \
         "${MANAGE_REPOSITORY:?}/vendor/hyperfine" \
-        "${MANAGE_REPOSITORY:?}/vendor/rclone"
+        "${MANAGE_REPOSITORY:?}/vendor/rclone" \
+        "${MANAGE_REPOSITORY:?}/vendor/tflint"
 
     _ info "Downloading tini ..."
     _ downloadTini || ((exitCode++))
@@ -38,6 +40,8 @@ main ()
     _ downloadHyperfine || ((exitCode++))
     _ info "Downloading rclone..."
     _ downloadRclone || ((exitCode++))
+    _ info "Downloading tflint..."
+    _ downloadTflint || ((exitCode++))
 
     exit "${code}"
 }
