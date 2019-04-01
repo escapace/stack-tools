@@ -76,7 +76,7 @@ stackTerraform () {
                 info "${short}: running"
 
                 (
-                    terraformInit "${test}" || return 1
+                    terraformInit "${test}" "${clean}" || return 1
                     terraformValidate "${test}"  || return 1
 
                     "${MANAGE_REPOSITORY}/vendor/terraform/terraform" apply \

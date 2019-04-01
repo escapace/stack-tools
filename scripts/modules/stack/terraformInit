@@ -6,13 +6,16 @@
 # @import path/absolutePath
 # @import path/relativePath
 # @import hashicorp/downloadTerraform
+# @import lang/truth
 
 terraformInit () {
     local module    
     local short
+    local clean
 
     module="$(absolutePath "${1}")"
     short="$(relativePath "${module}" "${MANAGE_REPOSITORY}")"
+    clean="${2:-false}"
 
     [[ -d "${module}" ]] || {
         error "${short}: No such file or directory"
@@ -25,7 +28,10 @@ terraformInit () {
     (
         cd "${module}" || return 1
 
-        rm -rf "${module}/terraform.tfstate" "${module}/terraform.tfstate.backup" "${module}/.terraform" || true
+        if truth "${clean}"
+        then
+            rm -rf "${module}/terraform.tfstate" "${module}/terraform.tfstate.backup" "${module}/.terraform" || true
+        fi
 
         {
             "${MANAGE_REPOSITORY}/vendor/terraform/terraform" init \
