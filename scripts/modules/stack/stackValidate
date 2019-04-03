@@ -12,7 +12,7 @@
 # @import terraform/terraformFmt
 # @description Validate configurations
 
-stackFmt () {
+stackValidate () {
     local directory="$1"
     local code=0
 
