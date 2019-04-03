@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # @description test stack-tools modules
-# @import docker/downloadGosu
-# @import docker/downloadTini
-# @import hashicorp/downloadPacker
-# @import hashicorp/downloadTerraform
-# @import restic/downloadRestic
-# @import sharkdp/downloadHyperfine
-# @import ncw/downloadRclone
-# @import tflint/downloadTflint
+# @import download/downloadGosu
+# @import download/downloadHyperfine
+# @import download/downloadPacker
+# @import download/downloadRclone
+# @import download/downloadRestic
+# @import download/downloadTerraform
+# @import download/downloadTflint
+# @import download/downloadTini
+# @import download/downloadGomplate
 # @import console/info
 
 main ()
@@ -42,6 +43,8 @@ main ()
     _ downloadRclone || ((exitCode++))
     _ info "Downloading tflint..."
     _ downloadTflint || ((exitCode++))
+    _ info "Downloading gomplate..."
+    _ downloadGomplate || ((exitCode++))
 
     exit "${code}"
 }

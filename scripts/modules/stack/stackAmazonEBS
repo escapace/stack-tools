@@ -9,6 +9,7 @@
 # @import lang/required
 # @import lang/truth
 # @import string/splitString
+# @import packer/packer
 
 stackAmazonEBS () {
     exists aws || {
@@ -53,7 +54,7 @@ stackAmazonEBS () {
             mkdir -p "$(dirname "${manifest}")"
         fi
 
-        "${MANAGE_REPOSITORY}/vendor/packer/packer" build \
+        packer build \
             -only=amazon-ebs \
             -force \
             "${template}" || return 1

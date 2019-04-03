@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# @import download/downloadTerraform
+
+terraform () {
+    downloadTerraform
+
+    "${TERRAFORM_DIRECTORY}/terraform" "$@"
+}

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# @import download/downloadHyperfine
+
+hyperfine () {
+    downloadHyperfine
+
+    "${HYPERFINE_DIRECTORY}/hyperfine" "$@"
+}

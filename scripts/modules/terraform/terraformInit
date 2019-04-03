@@ -5,8 +5,9 @@
 # @import console/error
 # @import path/absolutePath
 # @import path/relativePath
-# @import hashicorp/downloadTerraform
 # @import lang/truth
+# @import terraform/terraform
+
 
 terraformInit () {
     local module    
@@ -23,8 +24,6 @@ terraformInit () {
         return 1
     }
 
-    downloadTerraform
-
     (
         cd "${module}" || return 1
 
@@ -34,7 +33,7 @@ terraformInit () {
         fi
 
         {
-            "${MANAGE_REPOSITORY}/vendor/terraform/terraform" init \
+            terraform init \
             -force-copy \
             -get=true \
             -get-plugins=true \

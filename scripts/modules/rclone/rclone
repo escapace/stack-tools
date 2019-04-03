@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# @import download/downloadRclone
+
+rclone () {
+    downloadRclone
+
+    "${RCLONE_DIRECTORY}/rclone" "$@"
+}

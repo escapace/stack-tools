@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 
 downloadHyperfine ()
 {
@@ -10,7 +10,7 @@ downloadHyperfine ()
 
     exists curl || die "Cannot find 'curl' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     local arch
     local suffix
@@ -61,7 +61,7 @@ downloadHyperfine ()
     [ -z "${HYPERFINE_BINARY}" ] && die "'HYPERFINE_BINARY' is not defined"
 
     [ -z "${HYPERFINE_DIRECTORY}" ] &&
-      HYPERFINE_DIRECTORY="${MANAGE_REPOSITORY}/vendor/hyperfine"
+      HYPERFINE_DIRECTORY="${DOWNLOAD_DIRECTORY}/hyperfine"
 
     if [ ! -f "${HYPERFINE_DIRECTORY}/${name}" ]
     then

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadRestic ()
@@ -13,7 +13,7 @@ downloadRestic ()
     exists curl || die "Cannot find 'gpg' in path."
     exists bzip2 || die "Cannot find 'bzip2' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     trust CF8F18F2844575973F79D4E191A6868BD3F7A907 || die "Cannot import Alexander Neumann (https://github.com/fd0) GPG key"
 
@@ -21,7 +21,7 @@ downloadRestic ()
     [ -z "${RESTIC_SHA256SUMS}" ] && die "'RESTIC_SHA256SUMS' is not defined"
     [ -z "${RESTIC_SHA256SUMS_SIGNATURE}" ] && die "'RESTIC_SHA256SUMS_SIGNATURE' is not defined"
 
-    [ -z "${RESTIC_DIRECTORY}" ] && RESTIC_DIRECTORY="${MANAGE_REPOSITORY}/vendor/restic"
+    [ -z "${RESTIC_DIRECTORY}" ] && RESTIC_DIRECTORY="${DOWNLOAD_DIRECTORY}/restic"
 
     if [ ! -f "${RESTIC_DIRECTORY}/restic" ]
     then

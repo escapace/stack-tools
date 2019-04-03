@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# @import download/downloadPacker
+
+packer () {
+    downloadPacker
+
+    "${PACKER_DIRECTORY}/packer" "$@"
+}

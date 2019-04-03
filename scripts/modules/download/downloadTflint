@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadTflint ()
@@ -12,11 +12,11 @@ downloadTflint ()
     exists curl || die "Cannot find 'curl' in path."
     exists unzip || die "Cannot find 'unzip' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     [ -z "${TFLINT_BINARY}" ] && die "'TFLINT_BINARY' is not defined"
 
-    [ -z "${TFLINT_DIRECTORY}" ] && TFLINT_DIRECTORY="${MANAGE_REPOSITORY}/vendor/tflint"
+    [ -z "${TFLINT_DIRECTORY}" ] && TFLINT_DIRECTORY="${DOWNLOAD_DIRECTORY}/tflint"
 
     if [ ! -f "${TFLINT_DIRECTORY}/tflint" ]
     then

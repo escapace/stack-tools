@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# @import download/downloadRestic
+
+restic () {
+    downloadRestic
+
+    "${RESTIC_DIRECTORY}/restic" "$@"
+}

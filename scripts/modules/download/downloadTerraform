@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadTerraform ()
@@ -13,7 +13,7 @@ downloadTerraform ()
     exists curl || die "Cannot find 'curl' in path."
     exists unzip || die "Cannot find 'unzip' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     trust 91A6E7F85D05C65630BEF18951852D87348FFC4C || die "Cannot import HashiCorp GPG key"
 
@@ -21,7 +21,7 @@ downloadTerraform ()
     [ -z "${TERRAFORM_SHA256SUMS}" ] && die "'TERRAFORM_SHA256SUMS' is not defined"
     [ -z "${TERRAFORM_SHA256SUMS_SIGNATURE}" ] && die "'TERRAFORM_SHA256SUMS_SIGNATURE' is not defined"
 
-    [ -z "${TERRAFORM_DIRECTORY}" ] && TERRAFORM_DIRECTORY="${MANAGE_REPOSITORY}/vendor/terraform"
+    [ -z "${TERRAFORM_DIRECTORY}" ] && TERRAFORM_DIRECTORY="${DOWNLOAD_DIRECTORY}/terraform"
 
     if [ ! -f "${TERRAFORM_DIRECTORY}/terraform" ]
     then

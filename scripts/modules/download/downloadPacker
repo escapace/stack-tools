@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadPacker ()
@@ -13,7 +13,7 @@ downloadPacker ()
     exists curl || die "Cannot find 'curl' in path."
     exists unzip || die "Cannot find 'unzip' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     trust 91A6E7F85D05C65630BEF18951852D87348FFC4C || die "Cannot import HashiCorp GPG key"
 
@@ -21,7 +21,7 @@ downloadPacker ()
     [ -z "${PACKER_SHA256SUMS}" ] && die "'PACKER_SHA256SUMS' is not defined"
     [ -z "${PACKER_SHA256SUMS_SIGNATURE}" ] && die "'PACKER_SHA256SUMS_SIGNATURE' is not defined"
 
-    [ -z "${PACKER_DIRECTORY}" ] && PACKER_DIRECTORY="${MANAGE_REPOSITORY}/vendor/packer"
+    [ -z "${PACKER_DIRECTORY}" ] && PACKER_DIRECTORY="${DOWNLOAD_DIRECTORY}/packer"
 
     if [ ! -f "${PACKER_DIRECTORY}/packer" ]
     then

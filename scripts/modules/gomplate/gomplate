@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# @import download/downloadGomplate
+
+gomplate () {
+    downloadGomplate
+
+    "${GOMPLATE_DIRECTORY}/gomplate" "$@"
+}

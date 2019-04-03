@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# @import console/die
+# @import lang/exists
+# @import download/downloadDefaults
+
+downloadGomplate ()
+{
+    verbose true
+    strict true
+
+    exists curl || die "Cannot find 'gpg' in path."
+
+    downloadDefaults
+
+    [ -z "${GOMPLATE_BINARY}" ] && die "'GOMPLATE_BINARY' is not defined"
+    [ -z "${GOMPLATE_SHA256SUMS}" ] && die "'GOMPLATE_SHA256SUMS' is not defined"
+
+    [ -z "${GOMPLATE_DIRECTORY}" ] && GOMPLATE_DIRECTORY="${DOWNLOAD_DIRECTORY}/gomplate"
+
+    if [ ! -f "${GOMPLATE_DIRECTORY}/gomplate" ]
+    then
+        mkdir -p "${GOMPLATE_DIRECTORY}"
+
+
+        curl -0 -S -L --progress-bar "${GOMPLATE_BINARY}" -o "${GOMPLATE_DIRECTORY}/${GOMPLATE_BINARY##*/}"
+
+        curl -0 -s -S -L "${GOMPLATE_SHA256SUMS}" -o "${GOMPLATE_DIRECTORY}/checksums.txt"
+
+        sed -i 's/bin\/gomplate/gomplate/g' "${GOMPLATE_DIRECTORY}/checksums.txt"
+
+        local SHA256SUM
+
+        SHA256SUM="$(grep "${GOMPLATE_BINARY##*/}" "${GOMPLATE_DIRECTORY}/checksums.txt")"
+
+        echo "${SHA256SUM}" > "${GOMPLATE_DIRECTORY}/checksums.txt"
+
+        (
+            cd "${GOMPLATE_DIRECTORY}" || die
+            sha256sum --status -c "${GOMPLATE_DIRECTORY}/checksums.txt"
+        )
+
+        mv "${GOMPLATE_DIRECTORY}/${GOMPLATE_BINARY##*/}" "${GOMPLATE_DIRECTORY}/gomplate"
+        rm -f "${GOMPLATE_DIRECTORY}/checksums.txt"
+        chmod +x "${GOMPLATE_DIRECTORY}/gomplate"
+    fi
+}

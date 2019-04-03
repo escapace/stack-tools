@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadRclone ()
@@ -12,11 +12,11 @@ downloadRclone ()
     exists curl || die "Cannot find 'curl' in path."
     exists unzip || die "Cannot find 'unzip' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     [ -z "${RCLONE_BINARY}" ] && die "'RCLONE_BINARY' is not defined"
 
-    [ -z "${RCLONE_DIRECTORY}" ] && RCLONE_DIRECTORY="${MANAGE_REPOSITORY}/vendor/rclone"
+    [ -z "${RCLONE_DIRECTORY}" ] && RCLONE_DIRECTORY="${DOWNLOAD_DIRECTORY}/rclone"
 
     if [ ! -f "${RCLONE_DIRECTORY}/rclone" ]
     then

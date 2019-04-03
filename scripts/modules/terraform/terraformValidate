@@ -5,7 +5,7 @@
 # @import console/error
 # @import path/absolutePath
 # @import path/relativePath
-# @import hashicorp/downloadTerraform
+# @import terraform/terraform
 
 terraformValidate () {
     local module    
@@ -15,24 +15,20 @@ terraformValidate () {
     short="$(relativePath "${module}" "${MANAGE_REPOSITORY}")"
 
     [[ -d "${module}" ]] || {
-        error "{short}: No such file or directory"
+        error "${short}: No such file or directory"
 
         return 1
     }
 
-    downloadTerraform
-    # downloadTflint
-
     (
         cd "${module}" || return 1
 
-        "${MANAGE_REPOSITORY}/vendor/terraform/terraform" fmt -write=true "${module}"  &> /dev/null || return 1
-        "${MANAGE_REPOSITORY}/vendor/terraform/terraform" validate -check-variables=false &> /dev/null || return 1
+        terraform validate -check-variables=false &> /dev/null || return 1
 
         # TODO: https://github.com/wata727/tflint/pull/209
         # while read -d '' -r file
         # do
-        #     "${MANAGE_REPOSITORY}/vendor/tflint/tflint" -q "${file}" || {
+        #     tflint -q "${file}" || {
         #         error "${file}: failed to lint"
         #
         #         return 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadGosu ()
@@ -12,7 +12,7 @@ downloadGosu ()
     exists gpg || die "Cannot find 'gpg' in path."
     exists curl || die "Cannot find 'gpg' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     trust B42F6819007F00F88E364FD4036A9C25BF357DD4 || die "Cannot import tianon GPG key"
 
@@ -21,7 +21,7 @@ downloadGosu ()
     [ -z "${GOSU_SHA256SUMS}" ] && die "'GOSU_SHA256SUMS' is not defined"
     [ -z "${GOSU_SHA256SUMS_SIGNATURE}" ] && die "'GOSU_SHA256SUMS_SIGNATURE' is not defined"
 
-    [ -z "${GOSU_DIRECTORY}" ] && GOSU_DIRECTORY="${MANAGE_REPOSITORY}/vendor/gosu"
+    [ -z "${GOSU_DIRECTORY}" ] && GOSU_DIRECTORY="${DOWNLOAD_DIRECTORY}/gosu"
 
     if [ ! -f "${GOSU_DIRECTORY}/gosu" ]
     then

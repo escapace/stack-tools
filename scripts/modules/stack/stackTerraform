@@ -8,13 +8,11 @@
 # @import lang/exists
 # @import lang/required
 # @import lang/truth
-# @import hashicorp/downloadTerraform
-# @import stack/stackAmazonEBS
-# @import stack/stackVagrant
 # @import path/absolutePath
 # @import path/relativePath
-# @import stack/terraformInit
-# @import stack/terraformValidate
+# @import terraform/terraformInit
+# @import terraform/terraformValidate
+# @import terraform/terraform
 
 stackTerraform () {
     local module
@@ -28,8 +26,6 @@ stackTerraform () {
     then
         clean="${STACK_CLEAN}"
     fi
-
-    downloadTerraform
 
     exists jq || {
         error "stackTerraform: Cannot find jq"
@@ -79,7 +75,7 @@ stackTerraform () {
                     terraformInit "${test}" "${clean}" || return 1
                     terraformValidate "${test}"  || return 1
 
-                    "${MANAGE_REPOSITORY}/vendor/terraform/terraform" apply \
+                    terraform apply \
                         -auto-approve=true \
                         -input=false || return 1
                 ) || ((++code))
@@ -92,7 +88,7 @@ stackTerraform () {
 
                     cd "${test}" || ((++localCode))
 
-                    "${MANAGE_REPOSITORY}/vendor/terraform/terraform" destroy -force || ((++localCode))
+                    terraform destroy -force || ((++localCode))
 
                     if (( localCode == 0 ))
                     then

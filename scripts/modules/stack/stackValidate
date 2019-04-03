@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+#
+# vim: set ft=sh:
+#
+# @import console/info
+# @import console/die
+# @import path/relativePath
+# @import path/absolutePath
+# @import lang/required
+# @import terraform/terraformInit
+# @import terraform/terraformValidate
+# @import terraform/terraformFmt
+# @description Validate configurations
+
+stackFmt () {
+    local directory="$1"
+    local code=0
+
+    if [[ ! -d ${directory} ]]
+    then
+        die "${directory}: No such directory"
+    fi
+
+    local proceed=false
+
+    # shellcheck disable=SC2034
+    while read -d '' -r files
+    do
+        proceed=true
+    done < <(find "${directory}" -mindepth 1 -maxdepth 1 -name '*.tf' -type f ! -path "*.terraform*" -print0 2> /dev/null)
+
+    if [[ "${proceed}" = "true" ]]
+    then
+        local short
+
+        short="$(relativePath "${directory}" "${MANAGE_REPOSITORY}")"
+
+        info "${short}: Processing"
+
+        {
+            terraformInit "${directory}"
+        } || (( ++code ))
+
+        if (( code == 0 ))
+        then
+            terraformValidate "${directory}" || (( ++code ))
+        fi
+
+        if (( code == 0 ))
+        then
+            terraformFmt "${directory}" || (( ++code ))
+        fi
+
+        # Tests
+        if (( code == 0 ))
+        then
+            info "${short}: Ok"
+
+            while read -d '' -r test
+            do
+                if [[ -f "${test}/main.tf" ]]
+                then
+                    local localCode=0
+
+                    short="$(relativePath "${test}" "${MANAGE_REPOSITORY}")"
+
+                    info "${short}: Processing"
+
+                    terraformInit "${test}" || (( ++localCode ))
+
+                    if (( localCode == 0 ))
+                    then
+                        terraformFmt "${test}" || (( ++localCode ))
+                    fi
+
+                    if (( localCode == 0 ))
+                    then
+                        terraformFmt "${test}" || (( ++localCode ))
+                    fi
+
+                    if (( localCode == 0 ))
+                    then
+                        info "${short}: Ok"
+                    else
+                        (( ++code ))
+                    fi
+                fi
+            done < <(find "${directory}" -mindepth 2 -maxdepth 2 -type d ! -path "*.terraform*" -print0 2> /dev/null)
+        fi
+    fi
+
+    if (( code != 0 ))
+    then
+        return 1
+    fi
+}

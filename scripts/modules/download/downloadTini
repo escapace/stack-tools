@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # @import console/die
 # @import lang/exists
-# @import stack-tools/stackToolsDefaults
+# @import download/downloadDefaults
 # @import manage/trust
 
 downloadTini ()
@@ -12,13 +12,13 @@ downloadTini ()
     exists gpg || die "Cannot find 'gpg' in path."
     exists curl || die "Cannot find 'gpg' in path."
 
-    stackToolsDefaults
+    downloadDefaults
 
     trust 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 || die "Cannot import tini GPG key"
 
     [ -z "${TINI_BINARY}" ] && die "'TINI_BINARY' is not defined"
     [ -z "${TINI_BINARY_SIGNATURE}" ] && die "'TINI_BINARY_SIGNATURE' is not defined"
-    [ -z "${TINI_DIRECTORY}" ] && TINI_DIRECTORY="${MANAGE_REPOSITORY}/vendor/tini"
+    [ -z "${TINI_DIRECTORY}" ] && TINI_DIRECTORY="${DOWNLOAD_DIRECTORY}/tini"
 
     if [ ! -f "${TINI_DIRECTORY}/tini" ]
     then
