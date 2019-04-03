@@ -41,7 +41,7 @@ A directory structure convention for building [docker](https://www.docker.com/) 
 
 &nbsp;
 
-## `docker/downloadGosu`
+## `download/downloadGosu`
 
 Download and verify [gosu](https://github.com/tianon/gosu) - makes it less of a
 pain to switch to other users without introducing a `su` or `sudo` intermediate
@@ -53,7 +53,7 @@ process.
 
 &nbsp;
 
-## `docker/downloadTini`
+## `download/downloadTini`
 
 Download and verify [tini](https://github.com/krallin/tini) - spawns a single child, and wait for it to exit all the while reaping zombies and performing signal forwarding.
 
@@ -63,7 +63,7 @@ Download and verify [tini](https://github.com/krallin/tini) - spawns a single ch
 
 &nbsp;
 
-## `hashicorp/downloadPacker`
+## `download/downloadPacker`
 
 Download and verify HashiCorp’s [packer](https://www.packer.io) - a tool for creating identical machine images for multiple platforms from a single source configuration.
 
@@ -73,7 +73,7 @@ Download and verify HashiCorp’s [packer](https://www.packer.io) - a tool for c
 
 &nbsp;
 
-## `hashicorp/downloadTerraform`
+## `download/downloadTerraform`
 
 Download and verify HashiCorp’s [terraform](https://www.terraform.io/) - safely
 and predictably create, change, and improve infrastructure.
@@ -84,7 +84,7 @@ and predictably create, change, and improve infrastructure.
 
 &nbsp;
 
-## `restic/downloadRestic`
+## `download/downloadRestic`
 
 Download and verify [restic](https://github.com/restic/restic) - fast, secure, efficient backup program.
 
