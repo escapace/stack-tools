@@ -13,12 +13,10 @@ main ()
     local scope="${DOCKER_SCOPE:-internal}"
 
     _ dockerBuild test-centos
-    _ dockerBuild test-ubuntu
 
     if [[ "${scope}" != "internal" ]]
     then
         docker push "${scope}/test-centos"
-        docker push "${scope}/test-ubuntu"
     fi
 }
 

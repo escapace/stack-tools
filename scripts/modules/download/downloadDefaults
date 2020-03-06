@@ -22,13 +22,13 @@ function downloadDefaults () {
         osxOSType="osx"
     fi
 
-    GOMPLATE_VERSION="${GOMPLATE_VERSION:-3.3.1}"
+    DOWNLOAD_DIRECTORY="${MANAGE_REPOSITORY}/vendor"
+
+    GOMPLATE_VERSION="${GOMPLATE_VERSION:-3.6.0}"
     GOMPLATE_BINARY="${GOMPLATE_BINARY:-https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/gomplate_${ostype}-${arch}-slim}"
     GOMPLATE_SHA256SUMS="${GOMPLATE_SHA256SUMS:-https://github.com/hairyhenderson/gomplate/releases/download/v${GOMPLATE_VERSION}/checksums-v${GOMPLATE_VERSION}.txt}"
 
-    DOWNLOAD_DIRECTORY="${MANAGE_REPOSITORY}/vendor"
-
-    HYPERFINE_VERSION="${HYPERFINE_VERSION:-1.5.0}"
+    HYPERFINE_VERSION="${HYPERFINE_VERSION:-1.9.0}"
 
     TINI_VERSION="${TINI_VERSION:-0.18.0}"
     TINI_BINARY="${TINI_BINARY:-https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-${garch}}"
@@ -40,24 +40,24 @@ function downloadDefaults () {
     GOSU_SHA256SUMS="${GOSU_SHA256SUMS:-https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/SHA256SUMS}"
     GOSU_SHA256SUMS_SIGNATURE="${GOSU_SHA256SUMS_SIGNATURE:-https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/SHA256SUMS.asc}"
 
-    TERRAFORM_VERSION="${TERRAFORM_VERSION:-0.11.13}"
+    TERRAFORM_VERSION="${TERRAFORM_VERSION:-0.12.23}"
     TERRAFORM_BINARY="${TERRAFORM_BINARY:-https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_${ostype}_${arch}.zip}"
     TERRAFORM_SHA256SUMS="${TERRAFORM_SHA256SUMS:-https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS}"
     TERRAFORM_SHA256SUMS_SIGNATURE="${TERRAFORM_SHA256SUMS_SIGNATURE:-https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_SHA256SUMS.sig}"
 
-    TFLINT_VERSION="${TFLINT_VERSION:-0.7.4}"
-    TFLINT_BINARY="https://github.com/wata727/tflint/releases/download/v${TFLINT_VERSION}/tflint_${ostype}_${arch}.zip"
+    TFLINT_VERSION="${TFLINT_VERSION:-0.15.1}"
+    TFLINT_BINARY="https://github.com/terraform-linters/tflint/releases/download/v${TFLINT_VERSION}/tflint_${ostype}_${arch}.zip"
 
-    PACKER_VERSION="${PACKER_VERSION:-1.3.5}"
+    PACKER_VERSION="${PACKER_VERSION:-1.5.4}"
     PACKER_BINARY="${PACKER_BINARY:-https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_${ostype}_${arch}.zip}"
     PACKER_SHA256SUMS="${PACKER_SHA256SUMS:-https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS}"
     PACKER_SHA256SUMS_SIGNATURE="${PACKER_SHA256SUMS_SIGNATURE:-https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_SHA256SUMS.sig}"
 
-    RESTIC_VERSION="${RESTIC_VERSION:-0.9.4}"
+    RESTIC_VERSION="${RESTIC_VERSION:-0.9.6}"
     RESTIC_BINARY="${RESTIC_BINARY:-https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/restic_${RESTIC_VERSION}_${ostype}_${arch}.bz2}"
     RESTIC_SHA256SUMS="${RESTIC_SHA256SUMS:-https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/SHA256SUMS}"
     RESTIC_SHA256SUMS_SIGNATURE="${RESTIC_SHA256SUMS_SIGNATURE:-https://github.com/restic/restic/releases/download/v${RESTIC_VERSION}/SHA256SUMS.asc}"
 
-    RCLONE_VERSION="${RCLONE_VERSION:-1.46}"
+    RCLONE_VERSION="${RCLONE_VERSION:-1.51.0}"
     RCLONE_BINARY="${RCLONE_BINARY:-https://downloads.rclone.org/v${RCLONE_VERSION}/rclone-v${RCLONE_VERSION}-${osxOSType}-${arch}.zip}"
 }

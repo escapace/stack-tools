@@ -33,7 +33,7 @@ else
     exit 1
 fi
 
-MANAGE_VERSION="v3.1.2"
+MANAGE_VERSION="v3.5.5"
 
 MANAGE_IS_CI () {
     # Returns 0 if the current environment
@@ -50,7 +50,7 @@ MANAGE_IS_CI () {
 
     for variable in "${ci[@]}"
     do
-        [ ! -z "${variable// }" ] || code=$((code+1))
+        [ -n "${variable// }" ] || code=$((code+1))
     done
 
     [[ ! "${#ci[@]}" == "${code}" ]]
@@ -322,7 +322,12 @@ MANAGE_SOURCE () {
     if [[ -z "${MANAGE_MODULE_NAMES["${name}"]}" ]]
     then
         MANAGE_MODULE_NAMES["${name}"]="${longName}"
-    else
+    # else
+    #     MANAGE_ERROR collision "${longName}" "${MANAGE_MODULE_NAMES["${name}"]}"
+    # fi
+
+    elif [[ "${MANAGE_MODULE_NAMES["${name}"]}" != "${longName}" ]]
+    then
         MANAGE_ERROR collision "${longName}" "${MANAGE_MODULE_NAMES["${name}"]}"
     fi
 
@@ -450,20 +455,14 @@ MANAGE_REPOSITORY_PATH () {
     local directory="$2"
     local modulePath
 
-    if [[ ! -n "${MANAGE_REMOTE_PATHS["${repository}"]}" ]]
+    if [[ -z "${MANAGE_REMOTE_PATHS["${repository}"]}" ]]
     then
         [ ! -f "${directory}/.manage.yml" ] && {
             rm -rf "${directory}" || true
             MANAGE_ERROR notRepository "${repository}"
         }
 
-        modulePath="$(yq r "${directory}/.manage.yml" directories.module)"
-
-        if [[ "${modulePath}" == "null" ]]
-        then
-            modulePath="scripts/modules"
-        fi
-
+        modulePath="$(yq r "${directory}/.manage.yml" --defaultValue "scripts/modules" directories.module)"
         modulePath="${directory}/${modulePath}"
 
         [ ! -d "${modulePath}" ] && {
@@ -487,7 +486,7 @@ MANAGE_TAG ()
         import)
             text="$(sed -nr "s/${comment}@${tag} (${import})$/\1/p;${trim}" "$@")"
 
-            if [[ ! -z "${text}" ]]
+            if [[ -n "${text}" ]]
             then
                 declare -a lines
                 declare -a fragments
@@ -515,7 +514,7 @@ MANAGE_TAG ()
                     fi
                 done
 
-                if  [[ ! -z "${!product[*]}" ]]
+                if  [[ -n "${!product[*]}" ]]
                 then
                     echo "${!product[*]}"
                 fi
@@ -930,7 +929,7 @@ MANAGE_OS () {
 }
 
 MANAGE_GET_YQ() {
-    local version="2.1.2"
+    local version="3.2.1"
     local url
     local binary="${MANAGE_BIN}/yq"
     local localVersion
