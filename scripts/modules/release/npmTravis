@@ -65,7 +65,7 @@ npmTravis ()
         local tag
         local email
 
-        [ -z "${NPM_PUBLISH_BRANCHES}" ] && NPM_PUBLISH_BRANCHES="master"
+        [ -z "${NPM_PUBLISH_BRANCHES}" ] && NPM_PUBLISH_BRANCHES="trunk"
 
         IFS=$'\n ' read -r -a branches <<< "${NPM_PUBLISH_BRANCHES}"
 

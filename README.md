@@ -13,7 +13,7 @@ A build, test and release convention for [npm](https://npmjs.com) packages.
 
 | Environment Variable   |  Default | Description          |
 | ---------------------- | :------: | -------------------- |
-| `NPM_PUBLISH_BRANCHES` | `master` | npm publish branches |
+| `NPM_PUBLISH_BRANCHES` | `trunk`  | npm publish branches |
 
 &nbsp;
 

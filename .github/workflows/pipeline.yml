@@ -1,8 +1,7 @@
 on:
   push:
     branches:
-    - '*'
-    - '!master'
+    - 'trunk'
     tags:
     - 'v*'
 name: Pipeline
