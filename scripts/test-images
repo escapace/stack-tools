@@ -16,7 +16,7 @@ main ()
 
     if [[ "${scope}" != "internal" ]]
     then
-        docker push "${scope}/test-centos"
+        docker push -a "${scope}/test-centos"
     fi
 }
 
