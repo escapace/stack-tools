@@ -1,31 +1,8 @@
 # [stack-tools](https://github.com/escapace/stack-tools)
 
-[![build status](https://secure.travis-ci.org/escapace/stack-tools.png)](https://travis-ci.org/escapace/stack-tools)
 [![license](https://img.shields.io/badge/license-Mozilla%20Public%20License%20Version%202.0-blue.svg)](<>)
 
 Collection of [manage](https://github.com/escapace/manage) modules shared by projects across the Escapace stack.
-
-&nbsp;
-
-## `release/npmTravis`
-
-A build, test and release convention for [npm](https://npmjs.com) packages.
-
-| Environment Variable   |  Default | Description          |
-| ---------------------- | :------: | -------------------- |
-| `NPM_PUBLISH_BRANCHES` | `trunk`  | npm publish branches |
-
-&nbsp;
-
-## `release/npmCommit`
-
-A release commit convention for for [npm](https://npmjs.com) packages.
-
-| Environment Variable  | Default | Description     |
-| --------------------- | :-----: | --------------- |
-| `GIT_USER_NAME`       |         | git user name   |
-| `GIT_USER_EMAIL`      |         | git user email  |
-| `GIT_USER_SIGNINGKEY` |         | gpg signing key |
 
 &nbsp;
 
