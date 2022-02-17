@@ -28,22 +28,22 @@ main ()
         "${MANAGE_REPOSITORY:?}/vendor/tflint" \
         "${MANAGE_REPOSITORY:?}/vendor/gomplate"
 
-    # _ info "Downloading tini ..."
-    # _ downloadTini || ((exitCode++))
-    # _ info "Downloading gosu ..."
-    # _ downloadGosu || ((exitCode++))
-    # _ info "Downloading packer ..."
-    # _ downloadPacker || ((exitCode++))
-    # _ info "Downloading terraform ..."
-    # _ downloadTerraform || ((exitCode++))
-    # _ info "Downloading restic ..."
-    # _ downloadRestic || ((exitCode++))
-    # _ info "Downloading hyperfine..."
-    # _ downloadHyperfine || ((exitCode++))
-    # _ info "Downloading rclone..."
-    # _ downloadRclone || ((exitCode++))
-    # _ info "Downloading tflint..."
-    # _ downloadTflint || ((exitCode++))
+    _ info "Downloading tini ..."
+    _ downloadTini || ((exitCode++))
+    _ info "Downloading gosu ..."
+    _ downloadGosu || ((exitCode++))
+    _ info "Downloading packer ..."
+    _ downloadPacker || ((exitCode++))
+    _ info "Downloading terraform ..."
+    _ downloadTerraform || ((exitCode++))
+    _ info "Downloading restic ..."
+    _ downloadRestic || ((exitCode++))
+    _ info "Downloading hyperfine..."
+    _ downloadHyperfine || ((exitCode++))
+    _ info "Downloading rclone..."
+    _ downloadRclone || ((exitCode++))
+    _ info "Downloading tflint..."
+    _ downloadTflint || ((exitCode++))
     _ info "Downloading gomplate..."
     _ downloadGomplate || ((exitCode++))
 
