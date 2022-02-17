@@ -21,7 +21,6 @@ downloadGomplate ()
     then
         mkdir -p "${GOMPLATE_DIRECTORY}"
 
-
         curl -0 -S -L --progress-bar "${GOMPLATE_BINARY}" -o "${GOMPLATE_DIRECTORY}/${GOMPLATE_BINARY##*/}"
 
         curl -0 -s -S -L "${GOMPLATE_SHA256SUMS}" -o "${GOMPLATE_DIRECTORY}/checksums.txt"

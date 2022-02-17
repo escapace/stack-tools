@@ -15,7 +15,7 @@ downloadPacker ()
 
     downloadDefaults
 
-    trust 91A6E7F85D05C65630BEF18951852D87348FFC4C || die "Cannot import HashiCorp GPG key"
+    trust "${HASHICORP_GPG_KEY}" || die "Cannot import HashiCorp GPG key"
 
     [ -z "${PACKER_BINARY}" ] && die "'PACKER_BINARY' is not defined"
     [ -z "${PACKER_SHA256SUMS}" ] && die "'PACKER_SHA256SUMS' is not defined"

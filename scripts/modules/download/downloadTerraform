@@ -15,7 +15,7 @@ downloadTerraform ()
 
     downloadDefaults
 
-    trust 91A6E7F85D05C65630BEF18951852D87348FFC4C || die "Cannot import HashiCorp GPG key"
+    trust "${HASHICORP_GPG_KEY}" || die "Cannot import HashiCorp GPG key"
 
     [ -z "${TERRAFORM_BINARY}" ] && die "'TERRAFORM_BINARY' is not defined"
     [ -z "${TERRAFORM_SHA256SUMS}" ] && die "'TERRAFORM_SHA256SUMS' is not defined"

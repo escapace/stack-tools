@@ -1,0 +1,21 @@
+name: test
+on:
+  push:
+    branches:
+      - trunk
+    paths-ignore:
+      - README.md
+      - LICENSE
+  push:
+    tags:
+      - 'v*.*.*'
+jobs:
+  reelase:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test
+        run: |
+          ./manage trust-escapace
+          ./manage test
