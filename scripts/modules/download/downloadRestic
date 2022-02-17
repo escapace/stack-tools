@@ -32,9 +32,8 @@ downloadRestic ()
 
         {
             gpg --batch --verify "${RESTIC_DIRECTORY}/${RESTIC_SHA256SUMS_SIGNATURE##*/}" \
-                "${RESTIC_DIRECTORY}/${RESTIC_SHA256SUMS##*/}" &> /dev/null
+                "${RESTIC_DIRECTORY}/${RESTIC_SHA256SUMS##*/}" #&> /dev/null
         } || die "Cannot verify '${RESTIC_SHA256SUMS##*/}'"
-
 
         local SHA256SUM
         SHA256SUM="$(grep "${RESTIC_BINARY##*/}" "${RESTIC_DIRECTORY}/${RESTIC_SHA256SUMS##*/}")"
