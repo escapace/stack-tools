@@ -3,12 +3,11 @@ on:
   push:
     branches:
       - trunk
+    tags:
+      - 'v*.*.*'
     paths-ignore:
       - README.md
       - LICENSE
-  push:
-    tags:
-      - 'v*.*.*'
 jobs:
   reelase:
     name: test
